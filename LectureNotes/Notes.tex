@@ -1,0 +1,896 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\re}[0]{\text{Re}}
+\newcommand{\im}[0]{\text{Im}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ind}{\text{Ind}}
+
+\title{Math H185 Lecture Notes}
+\author{Eric Xia}
+\begin{document}
+
+\maketitle
+
+\section{Preliminaries}
+
+Here is an important property of complex numbers:
+$$ |\text{Re}(z)| \leq |z|, |\text{Im}(z)| \leq |z|, |z| \leq |\text{Re}(z)| + |\text{Im}(z)| $$
+
+\begin{lemma}
+Let $(a_n)$ be a sequence in $\mathbb{C}$, and $L \in \mathbb{C}$. Then $\lim_{n \to \infty} a_n = L$ if and only if 
+$$ \lim_{n \to \infty} \text{Re}(a_n) = \text{Re}(L), \hspace{2mm} \lim_{n \to \infty} \text{Im}(a_n) = \text{Im}(L) $$
+\end{lemma}
+
+\begin{lemma}
+Let $F \subset \mathbb{C}$ be a set. Then the following are equivalent
+\begin{enumerate}[(i)]
+\item $F$ is closed
+\item for every sequence $(z_n) \in F$, and $z \in \mathbb{C}$, with $\lim_{n \to \infty} z_n = z$, it follows that $z \in F$
+\end{enumerate}
+\end{lemma}
+
+Proof: This is the definition of a closed set.
+\newline
+
+\noindent
+Definition: A \textbf{Cauchy sequence} $z_n$ is a sequence in which for every $\epsilon > 0$ there exists $N \in \mathbb{N}$ such that for every pair $m, n \geq N$, we have that $d(z_n, z_m) < \epsilon$.
+\newline
+
+\noindent
+Definition: A set $S$ is \textbf{complete} if every Cauchy sequence in $S$ converges to some value in $S$.
+
+\begin{theorem}
+$\mathbb{C}$ is complete.
+\end{theorem}
+
+Proof: We will use the property that $\mathbb{R}$ is complete. Suppose we have a Cauchy sequence $(z_n)$ in $\mathbb{C}$. Thus given $\epsilon > 0$ we have $N$ as defined above. Thus, $\forall m,n \geq N$, $|z_m - z_n| < \epsilon$. Then we have that 
+$$ |\text{Re}(z_m - z_n)| \leq |z_m - z_n| < \epsilon, \hspace{2mm} |\text{Im}(z_m - z_n)| \leq |z_m - z_n| < \epsilon $$
+Note that $\text{Re}(z_m - z_n) = \text{Re}(z_m) - \text{Re}(z_n)$ and the same for the imaginary component. Thus the real components and imaginary components of $z_n$ are Cauchy and thus convergent, so $(z_n)$ is convergent. 
+
+\begin{definition}
+A set $K \in \mathbb{C}$ is called \textbf{sequentially compact} if every sequence in $K$ has a convergent subsequence which converges to a point in $K$.
+\end{definition}
+
+\begin{proposition}
+If $K \in \mathbb{C}$, then $K$ is sequentially compact if and only if $K$ is closed and bounded.
+\end{proposition}
+
+Proof: This proof is made trivial if you use the fact that sequential compactness is equivalent to covering compactness. Suppose $K$ is sequentially compact. Then let $(x_n)$ be a sequence in $K$ that converges to some $L$ in $\mathbb{C}$. By compactness, there exists a subsequence of $(x_{n_k})$ that is convergent to some value in $K$. Since in a convergent sequence every subsequence converges to the same value, $L \in K$ and so $K$ is closed. 
+
+To verify boundedness, suppose $K$ is not bounded. This implies that $\forall x \in K$, and $r \in \mathbb{R}$, there exists $y \in K$ such that $|x - y| > r$ (otherwise $K$ would be bounded). Let $r \in \mathbb{R}^{+}$ and construct the sequence inductively as follows. Let  $x_1 \in K$. Assuming $x_1, ..., x_n$ is defined, pick $x_{n+1}$ such that $d(x_{n+1}, x_{i}) > r$. This must exist, otherwise $K \subset \cup_{i = 1}^{n} B_{r}(x_i)$ where $B_r(x_i)$ is the ball centered around $x_i$ with radius $r$ implying that $K$ is bounded. Then in our sequence $(x_n)$ we have that distance between every pair of points is at least $r$, which is a property that carries over to every subsequence. Therefore every subsequence does not converge and so $K$ is not sequentially compact, proving the contrapositive.
+
+The other way is a bit more complicated and I don't really want to type it up, so it is left as an exercise to the reader.
+
+\begin{proposition}
+Let $K_i$ be a sequence of nonempty sequentially compact subsets of $\mathbb{C}$, and suppose we have that $K_{i+1} \subset K_{i}$ for every $i$. Then $\cap_{n=1}^{\infty}K_n$ is nonempty.
+\end{proposition}
+
+Proof: For each $K_i$, pick element $x_i \in K_i$. We have that the sequence $(x_n) \in K_1$, so it contains a convergent subsequence, $(x_{n_k})$ in $K_1$. Let $x$ be the value of which it converges to. $x$ is clearly in $K_i$ for every $i$, and thus $x \in \cap_{n=1}^{\infty}K_n$.
+
+\begin{proposition}
+Let $D \in \mathbb{C}$, and $f: D \to \mathbb{C}$ a function with $z_0 \in D$. Then the following are equivalent:
+\begin{enumerate}[(i)]
+\item  For every sequence $(d_n) \in D$ with $\lim_{n \to \infty}d_n = z_0$, it follows that $\lim_{n\to\infty}f(d_n) = f(z_0)$
+\item $\forall\epsilon > 0 $ $\exists \delta > 0$ such that $\forall d \in D$ with $|d - z_0| < \delta$ it follows that $|f(d) - f(z_0)| < \epsilon$
+\item For every open set $V \in \mathbb{C}$ with $f(z_0) \in V$, there exists open $U \in \mathbb{C}$ with $z_0 \in U$ and $U \cap D \subset f^{-1}(V)$
+\end{enumerate}
+\end{proposition}
+
+Proof: Suppose that (ii) is false, that $\exists \epsilon > 0$ such that $\forall \delta$, $\exists d \in D$ with $|d - z_0| > \delta$ such that $|f(d) - f(z_0)| > \epsilon$. Then construct sequence $(d_n)$ such that $|d_n - z_0| > \frac{1}{n}$ and $|f(d_n) - f(z_0)| > \epsilon$. We have that $\lim_{n \to \infty}d_n = z_0$, but since for all $n$, $|f(d_n) - f(z_0)| > \epsilon$, $f(d_n)$ does not converge to $z_0$. Thus (i) implies (ii) by contraposition, as desired.
+
+Now suppose that (ii) is true. By definition of open, $\exists \epsilon > 0$ such that $|f(z_0) - v| < \epsilon$ implies that $v \in V$. By (ii), $\exists \delta > 0$ such that $d \in B_{\delta}(z_0) \cap D$ (which implies that $d \in D$ and $|d - z_0| < \delta$) implies $|f(d) - f(z_0)| < \epsilon$, and so $d \in f^{-1}(V)$ and we conclude $B_{\delta}(z_0) \cap D \subset f^{-1}(V)$
+
+Finally, suppose (iii) is true. Consider a sequence $(d_n) \to z_0$. Take $\epsilon > 0$ and consider $B_{\epsilon}(f(z_0))$. It is open so there exists open $D$ with $z_0 \in D$ and $U \cap D \subset f^{-1}(B_{\epsilon}(f(z_0)))$. Thus there exists $\delta > 0$ such that $B_{\delta}(z_0) \in D$, and by definition of convergence $\exists N$ such that $\forall n \geq N$ we have $|d_n - z_0| < \delta$. Then we have that since $d_n \in U \cap D$, we have that $f(d_n) \in B_{\epsilon}(f(z_0))$ so $|f(d_n) - f(z_0)| < \epsilon$ for all $n \geq N$, and so 
+$$ \lim_{n\to\infty} f(d_n) = f(z_0) $$
+
+\begin{definition}
+A function $f$ is \textbf{continuous} if it satisfies one of the three conditions stipulated above.
+\end{definition}
+
+\begin{remark}
+If $f: D \to \mathbb{C}$ and $E \subset D$, define $g = f_{|E}$ (ie $f$ restricted to $E$), then $f$ being continuous implies that $g$ is continuous. 
+\end{remark}
+
+\begin{lemma}
+Let $K \in \mathbb{C}$ be sequentially compact and $f: K \to \mathbb{C}$ continuous, then $f(K)$ is sequentially compact.
+\end{lemma}
+
+Proof: Let $(a_n)$ be a sequence in $f(K)$. Define $d_n = f^{-1}(a_n)$ and if there are multiple, arbitrarily pick one. We have by sequential compactness of $K$, some subsequence $d_{n_{k}}$ converges to a $d \in K$. Thus by continuity, $f(d_{n_k}) \to f(d)$ as $k \to \infty$, and thus $(a_{n_k})$ converges.
+
+\subsection{Differentiability}
+
+\begin{definition}
+Let $D \subset \mathbb{C}$, and $z_0 \in \mathbb{C}$, then $z_0$ is called a \textbf{cluster point} in $D$ if there exists a sequence $(d_n) \in D - \{z_0\}$ such that $\lim_{n\to\infty} d_n = z_0$.
+\end{definition}
+
+\begin{definition}
+Let $D \subset \mathbb{C}$, $f: D \to \mathbb{C}$, and $z_0 \in \mathbb{C}$, and $z_0$ is a cluster point of $D$. Let $L \in \mathbb{C}$, then we say $f$ has a limit $L$ at $z_0$ if $\forall \epsilon > 0$, $\exists \delta > 0$ such that $\forall d \in D$ such that $0 < |d - z_0| < \delta$, it follows that $|f(d) - L| < \epsilon$.
+\end{definition}
+
+\begin{lemma}
+$D \subset \mathbb{C}$, $z_0$ is a cluster of $D$, $f: D \to \mathbb{C}$ and $L \in \mathbb{C}$. Define $g: D \cup \{z_0\} \to \mathbb{C}$ as 
+$$ g(z) = \begin{cases}
+f(z) & \text{if }z \in D - \{z_0\} \\
+L & \text{if } z = z_0
+\end{cases} $$
+Then $f$ has a limit $L$ at $z_0$ if and only if $g$ is continuous at $z_0$.
+\end{lemma}
+
+Proof: This holds from the definition of continuity and Definition 1.11.
+
+\begin{definition}
+Let $D \subset \mathbb{C}$, $f: D \to \mathbb{C}$, $z_0$ a cluster of $D$. Then $f$ is differentiable at $z_0$ if $\exists L \in \mathbb{C}$ such that 
+$$ z \mapsto \begin{cases}
+\frac{f(z) - f(z_0)}{z - z_0} & \text{if } z \neq z_0 \\
+L & \text{if } z = z_0
+\end{cases} $$
+is continuous at $z_0$. We then write $f'(z_0) = L$.
+\end{definition}
+
+\begin{remark}
+$f$ is differentiable at $z$ if and only if 
+$$ \lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0}$$
+exists.
+\end{remark}
+
+\begin{proposition}
+Let $D \subset \mathbb{C}$, $f: D \to \mathbb{C}$, $z$ a cluster of $D$, $L \in \mathbb{C}$, then the following are equivalent:
+\begin{enumerate}[(i)]
+\item $f$ is differentiable at $z_0$ with $f'(z_0) = L$
+\item There exists function $ \varphi : D \to \mathbb{C}$ continuous at $z_0$ such that $\varphi(z_0) = L$ and 
+$$ f(z) = f(z_0) + (z - z_0) \varphi(z) \hspace{2mm} \forall z \in D $$
+\end{enumerate}
+\end{proposition}
+
+Proof: We will show that (i) implies (ii), and the remaining are trivial. Define 
+$$ \varphi(z) = \begin{cases}
+\frac{f(z) - f(z_0)}{z - z_0} & \text{if } z \neq z_0 \\
+L & \text{if } z = z_0
+\end{cases} $$
+Then we have that 
+$$ f(z) = f(z_0) + (z - z_0)\varphi(z)$$ 
+and that $\varphi(z)$ is continuous at $z_0$.
+
+\begin{proposition}
+Differentiability implies continuity.
+\end{proposition}
+
+Proof: Given $\epsilon > 0$, there exists $\delta >0$ such that 
+$$ 0 < |z - z_0| < \delta \implies \left|\frac{f(z) - f(z_0)}{z - z_0}\right| < \epsilon $$
+Thus 
+$$ |f(z) - f(z_0)| < \epsilon |z - z_0| < \epsilon \delta < \epsilon $$
+for sufficiently small $\delta$.
+
+\begin{proposition}
+Let $D \subset \mathbb{C}$, $z_0$ cluster of $D$, $f, g: D \to \mathbb{C}$ be differentiable at $z_0$. Then $f+g$, $\lambda f$, and $fg$ are differentiable. If $f(z_0) \neq 0$, then $\frac{1}{f}$ is differentiable.
+\end{proposition}
+
+Proof: Follows from the definition of differentiability. Only the proof for $fg$ is a little more involved. 
+
+\begin{theorem}
+Let $D_1, D_2 \subset \mathbb{C}$, $z_i$ a cluster for $D_i$, $f: D_{1} \to \mathbb{C}$ differentiable at $z_1$, and $g: D_2 \to \mathbb{C}$ differentiable at $z_2$ with $f(z_1) = z_2$. Suppose $f(D_1) \subset D_2$. Then $g \circ f$ is differentiable at $z_1$ and 
+$$ (g \circ f)'(z_1) = g'(f(z_1)) f'(z_1) $$
+\end{theorem}
+
+Proof: Proposition 1.14 gives functions $\varphi_1$, $\varphi_2$ continuous at $z_1$, $z_2$ respectively, such that 
+$$ \varphi_1(z_1) = f'(z_1), \hspace{2mm} \varphi_2(z_2) = g'(z_2) $$
+and we have that 
+$$ (g \circ f)(z) = g(z_2) + (f(z) - z_2)\varphi_2(f(z)) $$
+$$ = (g \circ f)(z_1) + (z - z_1)\varphi_1(z)\varphi_2(f(z)) = (g \circ f)(z_1) + (z - z_1)\varphi(z)$$
+with $\varphi: D_1 \to \mathbb{C}$ continuous at $z_1$ and defined as $\varphi(z) = \varphi_1(z)\varphi_2(f(z))$ proving the desired.
+\newline
+
+\begin{definition}
+A \textbf{holomorphic} function is a differentiable function $f: U \to \mathbb{C}$ hwere $U$ is an open subset of $\mathbb{C}$.
+\end{definition}
+
+\vspace{5mm}
+\noindent
+Define $\Phi: \mathbb{R}^{2} \to \mathbb{C}$ as $(x, y) \mapsto x + iy$ and $\Psi : \mathbb{C} \to \mathbb{R}^2$ as the inverse. Let $U \subset \mathbb{C}$, and define $\tilde{U} = \Psi(U)$. If $f: U \to \mathbb{C}$, we can define $\tilde{f} = \Psi \circ f \circ \Phi$. Note $\tilde{f} : \tilde{U} \to \mathbb{R}^{2}$.
+
+\vspace{5mm}
+\noindent
+Let $z_0 = z_0 + iy_0$. By definition, $\tilde{f}$ is differentiable at $(x_0, y_0)$ if and only if there exists $2 \times 2$ matrix $M$ and a function $r: \tilde{U} \to \mathbb{R}^2$ such that for every $(x, y) \in \tilde{U}$ we have 
+$$ \tilde{f}(x, y) = \tilde{f}(x_0, y_0) + M\begin{bmatrix} x - x_0 & y - y_0 \end{bmatrix}^{\top} + r(x, y) $$
+where 
+$$ \lim_{(x, y) \to (x_0, y_0)} \frac{r(x, y)}{\sqrt{(x - x_0)^2 + (y - y_0)^2}} = 0$$
+We say that $M$ is the derivative of $\tilde{f}$ at $(x_0, y_0)$.
+
+\vspace{5mm}
+\noindent
+If $a, b \in \mathbb{R}$ with $L = a+ ib$, then we have that 
+$$ \Psi((z - z_0)L) = \begin{bmatrix} a & -b \\ b & a \end{bmatrix} \begin{bmatrix} x- x_0 \\ y - y_0 \end{bmatrix} $$
+
+\vspace{5mm}
+\noindent
+Suppose $f$ is differentiable at $z_0$, and $M = \begin{bmatrix} a & -b \\ b & a \end{bmatrix}$. Then we have that $\tilde{f} = \Psi \circ f \circ \Phi$ is differentiable at $(x_0, y_0)$ with derivative $M$ and 
+$$r(x, y) = \Psi\left((x + iy) - z_0) * \psi(x + iy)\right)$$
+where the $\psi$ comes from Proposition 1.14(III).
+
+\vspace{5mm}
+\noindent
+Suppose $\tilde{f}: \mathbb{R}^{2} \to \mathbb{R}^{2}$ is differentiable at $(x_0, y_0)$ with derivative \\$M = \begin{bmatrix} a & -b \\ b & a \end{bmatrix}$, where $a, b \in \mathbb{R}$. Let 
+$$ \psi(x + iy) = \begin{cases} 
+\frac{\Phi(r(x, y))}{x + iy - z} & x +iy \neq z_0 \\
+0 & x + iy = z_0 
+\end{cases} 
+$$
+These satisfies Proposition 1.14(III) with $L = a + bi$, so $f$ is complex differentiable.
+
+\vspace{5mm}
+\noindent
+Take $f: U \to \mathbb{C}$ continuous. Define $u, v: \tilde{U} \to \mathbb{R}$ via 
+$$\tilde{f}(x,y) = (u(x, y), v(x, y)) $$
+
+\begin{proposition}
+The following are equivalent
+\begin{enumerate}[(i)]
+\item $f$ is differentiable at $z_0$
+\item the functions $u,v$ are differentiable at $(x_0, y_0)$ and 
+$$ (D_1 u)(x_0, y_0) = (D_2 v)(x_0, y_0) $$
+$$ (D_2 u)(x_0, y_0) = -(D_1 v)(x_0, y_0) $$
+\end{enumerate}
+where $D_1 u = \delta_x u$, $D_2 u = \delta_y u$.
+\end{proposition}
+
+\begin{definition}
+The equations are called the \textbf{Cauchy-Riemann equations}.
+\end{definition}
+
+\subsection{Series in $\mathbb{C}$}
+Let $a_0, a_1, ... \in \mathbb{C}$, $\forall n \in N_0$. Define $s_n = \sum_{k=0}^{n} a_n \in \mathbb{C}$. We call $s_n$ the $n^{th}$ partial sum. We say that $\sum_{a_k}$ is convergent if and only if $(s_n)$ converges, and we write
+$$ \sum_{k=0}^{\infty} a_k = \lim_{n \to \infty}s_n $$
+
+\begin{remark}
+$\sum a_n$ converges if and only if $\sum \text{Re}(a_n)$ and $\sum\text{Im}(a_n)$ converges.
+\end{remark}
+
+We say that the series $\sum a_k$ is absolutely convergent if $\sum |a_n|$ is convergent in $\mathbb{R}$.
+
+\begin{theorem}
+Every absolutely convergent sequence is convergent in $\mathbb{C}$.
+\end{theorem}
+
+Proof: 
+$$ \sum_{n = 0}^{k} a_n \leq \left| \sum_{n=0}^{k} a_n\right| \leq \sum_{n = 0}^{k} |a_n|$$
+and then by the sequence comparison test we have $\sum a_n$ converges (I think).
+
+\begin{definition}
+Let $D \subset \mathbb{C}$ and $f, f_0, f_1, ... : D \to \mathbb{C}$ be a sequence of functions. We say $\lim_{n \to \infty} f_n = f$ uniformly if $\forall \epsilon > 0$ there exists $N \in \mathbb{N}$ such that $\forall x \in D$, $\forall n \geq N$ we have $|f_n(x) - f(x)| < \epsilon $
+\end{definition}
+
+\begin{remark}
+Consider $\sum f_k$ where $f_k : D \to \mathbb{C}$. Define $S_k = \sum_{i = 0}^{k} f_i$. The series $\sum f_{k}$ is uniformly convergent on $D$ if the sequence of partial sums $S_k$ is uniformly convergent.
+\end{remark}
+
+The following result is called the Weierstrass M-test.
+
+\begin{proposition}
+Let $D \subset \mathbb{C}$ and $f_0, f_1, ... : D \to \mathbb{C}$ be a sequence of functions. Let $a_0, a_1, ... \in \mathbb{R}^{+}$. Suppose $|f_k(z)| \leq a_k$ for all $z\in D$ and all $k \in \mathbb{N}_{0}$. Moreover suppose that the series $\sum a_n$ is convergent. Then the series $\sum f_n$ is uniformly convergent on $D$.
+\end{proposition}
+
+Proof: $\forall z \in D$, the series $\sum_{n} f_n(z)$ is absolutely convergent clearly (and so therefore convergent). Define $S: D \to \mathbb{C}$ by $S(z) = \sum_{n = 0}^{\infty} f(z)$. Let $z \in D$ and if $N \geq n$, then 
+$$ \left| \sum_{k=0}^{N}f_k(z)- \sum_{k = 0}^{n}f_k(z)\right| = \left| \sum_{k = n+1}^{N} f_k(z) \right| \leq \sum_{k = n+1}^{N} |f_k(z)| \leq \sum_{k = n+1}^N a_k \leq \sum_{k = n+1}^{\infty} a_k $$
+Now take the limit as $N \to \infty$, we get that 
+$$ \left|S(z) - \sum_{k = 0}^n f_k(z)\right| \leq \sum_{k = n+1}^{\infty} a_k $$
+Thus since $\lim_{n \to\infty} \sum_{k = n+1}^{\infty} a_k = 0$, we have the desired result.
+
+\subsection{Integration}
+Let $a, b \in \mathbb{R}$ with $a<b$ and $f:[a,b] \to \mathbb{C}$. This is called Riemann integrable over $[a, b]$ if both $\re f$ and $\im f$ are Riemann integrable on $[a,b] \to \mathbb{R}$, and 
+$$ \int_a^b f(t)dt = \int_a^b \re f(t)dt + i\int_a^b \im f(t)dt $$
+
+\begin{lemma}
+The integral is linear.
+\end{lemma}
+
+\begin{lemma}
+Let $a, b \in \mathbb{R}$, with $a<b$, and $f:[a,b] \to \mathbb{R}$ continuous. Then $|f|$ is Riemann integrable over $[a,b]$ and 
+$$ \left| \int_a^b f(t)dt \right| \leq \int_a^b |f(t)|dt $$
+\end{lemma}
+
+Proof: Since $|f|$ is continuous, it is Riemann integrable. Let $r \in [0, \infty)$ and $\theta \in \mathbb{R}$ such that $\int_a^b f(t)dt = r(\cos \theta + i \sin\theta)$, and define $\zeta = \cos \theta - i \sin \theta$. Then 
+$$ \left| \int_a^b f(t)dt \right| = \zeta \int_a^b f(t)dt = \re (\zeta \int_a^b f(t)dt) = \int_b^a \re (\zeta f(t))dt $$
+$$ \leq \int_a^b \left| \re (\zeta f(t))\right|dt \leq \int_a^b |\zeta f(t)|dt = \int_a^b |f(t)|dt $$
+
+\section{Analytic Functions}
+\subsection{Power Series} 
+Let $a \in \mathbb{C}$. Then a power series about $a$ is a series of the form 
+$$ \sum \alpha_n(z - \alpha)^n $$
+where $\alpha_k \in \mathbb{C}$, $\forall k \in \mathbb{N}_0$. For each $z \in \mathbb{C}$, the series might or might not converge.
+
+\vspace{5mm}
+\noindent
+If $U \in \mathbb{C}$ is open, $f: U \to \mathbb{C}$ is infinitely differentiable (smooth) then 
+$$ \sum \frac{f^{(n)}(a)}{n!} (z - a)^n $$
+is called the power series of $f$ about $a \in U$.
+
+\vspace{5mm}
+\noindent
+Define $R \in [0, \infty]$ the supremum of all $r \in [0, \infty)$ such that the series 
+$$ \sum |\alpha_n|r^n $$
+is convergent. Call $R$ the radius of convergence of the power series.
+
+\begin{lemma}
+Let $R$ be the radius of convergence of $\sum \alpha_k (z - a)^k$. Then the following are equivalent
+\begin{enumerate}[(I)]
+\item If $z \in \mathbb{C}$ with $|z - a| < R$ then the series converges
+\item If $z \in \mathbb{C}$ with $z \notin \overline{B_R(a)}$, then the series diverges 
+\item If $0 < r < R$ then $\sum \alpha_n (z-a)^n$ and $\sum |\alpha_n(z-a)^n|$ are convergent uniformly 
+\end{enumerate}
+\end{lemma}
+
+Proof: WLOG assume $a = 0$. We will prove (II) and (III), and (I) will follow from (III).
+
+We will prove (II) via contraposition. Let $z \in \mathbb{C} - \{ 0 \}$ and suppose that $\sum \alpha_n z^n$ is convergent. Thus $\{ \alpha_n z^n : n \in \mathbb{N} \}$ is bounded. Let $M > 0$ be such that $|\alpha_n z^n| \leq M$ for all $n \in \mathbb{N}_0$. Let $r \in (0, |z|)$, then 
+$$ |\alpha_n| r^n \leq M\left(\frac{r}{|z|}\right)^n, \forall n \in \mathbb{N}_0 $$
+Since $\frac{r}{|z|} < 1$, the series $\sum |\alpha_n|r^n$ converges, by definition of radius of convergence, $r < R$, so $|z| \leq R$.
+
+To prove (III), let $r \in (0, R)$, so $\sum |\alpha_n|r^n$ is convergent. If $z \in \overline{B_r(a)}$ then $|\alpha_n z^n| \leq |\alpha_n| r^n$ for all $n \in \mathbb{N}$. Thus by Weierstrass, we get that $\sum \alpha_n z^n$ and $\sum |\alpha_n z^n|$ are uniformly convergent for all $z \in \overline{B_r(0)}$.
+
+\begin{example}
+The radius of convergence of $\sum z^n$ is 1, so it is uniformly convergent on $\overline{B_r(0)}$, $\forall r \in (0, 1)$
+\end{example}
+
+\begin{definition}
+Let $U \subset \mathbb{C}$ be open and $f: U \to \mathbb{C}$ and $a \subset U$. Then $f$ is analytic at $a$ if $\exists R > 0$ and a power series $\sum \alpha_n(z-a)^n$ about $a$ such that $B_R(a) \subset U$, the power series has positive radius of convergence at least $R$, and 
+$$ f(z) = \sum_{n = 0}^{\infty} \alpha_n(z - a)^n, \hspace{3mm} \forall z \in B_R(a) $$
+We say that $f$ is analytic if it is analytic $\forall a \in D$.
+\end{definition}
+
+Note that every polynomial is analytic.
+
+\begin{lemma}
+The power series $\sum \alpha_n (z -a)^n$ and $\sum n\alpha_n(z - a)^{n-1}$ have the same radius of convergence.
+\end{lemma}
+
+Proof: WLOG assume $a = 0$. Let $R, \hat{R}$ be the respective radii of convergence. Let $r \in [0, R)$. Then there exists $\rho \in \mathbb{R}$ with $r < \rho < R$ such that $\sum |\alpha_n|\rho^n$ is convergent and $\lim_{n \to \infty} n \left(\frac{r}{\rho}\right)^n = 0$. Then $\exists M \in \mathbb{R}$ such that $n \left(\frac{r}{\rho}\right)^n \leq M$ for all $n \in \mathbb{N}_0$. Then 
+$$ n|\alpha_n|r^n = n \left(\frac{r}{\rho}\right)^n|\alpha_n| \rho^n \leq M |\alpha_n| \rho^n, \hspace{3mm} \forall n \in \mathbb{N}$$
+Thus since $\sum |\alpha_n| \rho^n$ converges, so too does $\sum n|\alpha_n|r^n$ (and thus $\sum n|\alpha_n|r^{n-1}$). Thus $\hat{R} \geq r$ and so $\hat{R} \geq R$. The other direction is similar.
+
+\begin{theorem}
+Let $R \in (0, \infty)$ and suppose the radius of convergence of the power series $\sum \alpha_n(z-a)^n$ is also at least $R$. Define $f:B_R(a) \to \mathbb{C}$ as $f(z) = \sum_{n=0}^{\infty} \alpha_n(z - a)^n$. Then $f$ is holomorphic (differentiable). Moreover, $f'(z) = \sum_{n = 0}^{\infty} n\alpha_n (z - a)^n$, $\forall z \in B_R(a)$. Hence $f$ is infinitely differentiable and $\alpha_n = \frac{f^{(n)}(a)}{n!}$ for all $n \in \mathbb{N}_0$.
+\end{theorem}
+
+Proof: WLOG let $a = 0$. Fix $z_0 \in B_{R}(0)$, and let $\epsilon > 0$. Fix an $r \in (|z_0|, R)$. By lemma 2.4, $\exists n \in \mathbb{N}$ such that 
+$$ \sum_{n = N+1}^{\infty} n|\alpha_n|r^{n-1} \leq \frac{\epsilon}{4} $$
+Then $\forall z \in B_r(0) - \{ z_0 \}$, we have 
+$$ \left| \frac{f(z) - f(z_0)}{z - z_0} - \sum_{n=1}^{\infty}n\alpha_nz_0^{n-1} \right| = \left| \sum_{n =0}^{\infty} \alpha_n\left(\frac{z^n - z_0^n}{z - z_0} - nz_0^{n-1}\right)\right| $$
+$$ = \left| \sum_{n=1}^{\infty} \alpha_n\left((\sum_{k=0}^{n-1} z^k z_0^{n - 1 - k}) - nz_0^{n-1}\right)\right|$$
+$$ \leq \left| \sum_{n=1}^{N}\alpha_n \sum_{k = 0}^{n-1}(z^k z_0^{n-1-k} - z_0^{n-1}) \right| + \sum_{n = N+1}^{\infty} 2n|\alpha_n|r^{n-1} $$
+The right sum is bounded by $\frac{\epsilon}{2}$. Note that $z \mapsto z^kz_0^{n-1-k} - z_0^{n-1}$ is continuous at $z_0$, with value $0$ for all $n \in \{1, ..., N\}$ and for all $k \in \{0, ..., n-1 \}$, so we can bound it and get from the above expression
+$$ \lim_{z \to z_0} \left( \frac{f(z) - f(z_0)}{z - z_0} - \sum_{n=1}^{\infty} \alpha_n z_0^{n-1}\right) = 0$$
+Thus $f$ is differentiable at $z_0$ with $f'(z_0) = \sum_{n=1}^{\infty} \alpha_n nz_0^{n-1}$. The proof that $\alpha_n = \frac{f(n)(a)}{n!}$ follows from repeated differentiation.
+
+\begin{corollary}
+Every analytic function is differentiable.
+\end{corollary}
+
+\begin{corollary} Let $\sum \alpha_n(z-a)^n$ and $\sum \beta_n (z-a)^n$ be two power series with radii of convergence $R_{1}, R_2$ respectively. Let $\epsilon \leq \min(R_1, R_2)$. Suppose that $\sum_{n=1}^{\infty}\alpha_n(z - a)^n = \sum_{n=1}^{\infty} \beta_n (z-a)^n$ for all $z\in B_{\epsilon}(a)$. Then $\alpha_n = \beta_n$ for all $n \in \mathbb{N}$.
+\end{corollary}
+
+Proof: Consider $\sum(\alpha_n - \beta_n)(z-a)^n$. It is identically $0$, so the $n^{th}$ order derivatives are $0$, so $\alpha_n = \beta_n$.
+
+\vspace{5mm}
+\noindent
+Define 
+$$ e^{x} = \sum_{n=0}^{\infty} \frac{x^n}{n!}$$
+$$ \sin(x) = \sum_{n = 0}^{\infty} (-1)^n \frac{x^{2n+1}}{(2n+1)!}$$
+$$ \cos(x) = \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n}}{(2n)!} $$
+These have infinite radius of convergence, and so we take these as a definition for functions $\mathbb{C} \to \mathbb{C}$. Note that we can show 
+$$ e^{iz} = \sum i^n \frac{z^n}{n!} = ... = \cos{z} + i\sin{z} $$
+We also have the formulas
+$$ \cos(z) = \frac{e^{iz} + e^{-iz}}{2}, \hspace{3mm} \sin(z) = \frac{e^{iz} - e^{-iz}}{2} $$
+
+\vspace{5mm}
+\noindent
+Let $w, z\in\mathbb{C}$ and $f:\mathbb{R} \to \mathbb{C}$ such that $f(t) = e^{-tz}e^{w + tz}$. We can verify by the product rule that $f' = 0$, and in particular $f(1) = f(0)$. Thus $e^{-z}e^{w+z} = e^{w}$. Let $a, b\in\mathbb{C}$, and choose $z = -a$, $w = a+b$. Then $e^a e^b = e^{a+b}$.
+
+\vspace{5mm}
+\noindent
+Let $x, y, u, v \in \mathbb{R}$. Suppose $e^{x + iy} = e^{u + iv}$. Thus $e^{x} = e^u$, so $x = u$. This implies $e^{iy} = e^{iv}$, so $y-v \in 2\pi\mathbb{Z}$. Thus if $z,w \in \mathbb{C}$, then $e^z = e^w$ if and only if $z - w \in 2\pi i\mathbb{Z}$.
+
+\subsection{Curves}
+\begin{definition} 
+A curve is a continuous map $\gamma:[a,b] \to \mathbb{C}$ where $a < b \in \mathbb{R}$. Let $\gamma(a)$ be the initial point and $\gamma(b)$ be the final point. Let $\gamma*$ denote the image of $\gamma$ in $\mathbb{C}$. 
+\end{definition}
+
+If $A \subset \mathbb{C}$, we say $\gamma$ is in $A$ if $\gamma* \subset A$. Lets say $\gamma$ is closed if $\gamma(a) = \gamma(b)$. 
+
+$\gamma$ is called smooth if it is $\mathbb{C}^1$ continuously differentiable. There is also a notion of being piecewise smooth (it is smooth every except at a finite number of points).
+
+If $\gamma:[a,b]\to\mathbb{C}$ and $\mu:[c,d]\to\mathbb{C}$ with $\gamma(b) = \mu(c)$ then we define the combined curve $\gamma \oplus \mu:[a, b+ d - c] \to \mathbb{C}$ as 
+$$ (\gamma \oplus \mu)(t) = \begin{cases} \gamma(t) & t \in [a,b] \\ \mu(c + t - b) & t \in (b, b + d - c] \end{cases}$$
+
+\begin{example}
+Define $\gamma : [-1, 1]\to\mathbb{C}$ by 
+$$ \gamma(t) = \begin{cases} t^2(1+i) & t \in [0, 1] \\ t^2(-1 + i) & t \in [-1, 0) \end{cases} $$
+is smooth. But 
+$$ \gamma(t) = \begin{cases} t(1+i) & t \in [0, 1] \\ 2t(1 + i) & t\in[-1, 0)\end{cases} $$
+is not smooth.
+\end{example}
+
+\vspace{5mm}
+\noindent
+
+Since $\gamma$ is continuous and $[a,b]$ is sequentially compact, it follows that $\gamma*$ is sequentially compact (and in particular it is closed).
+
+\begin{definition}
+Let $\gamma :[a,b] \to \mathbb{C}$ be a piecewise smooth curve, $D \subset \mathbb{C}$, and if $f: D\to\mathbb{C}$ a continuous function. Suppose $\gamma* \subset D$. If $\gamma$ is smooth, we define the contour integral of $f$ along $\gamma$ to be 
+$$ \int_{\gamma} f(z)dz = \int_a^b f(\gamma(t))\gamma'(t)dt $$
+If $\gamma$ is only piecewise smooth, with $a = s_0 < s_1 < ... < s_n = b$ and $\gamma|_{[s_{k-1}, s_k]}$ is smooth, then 
+$$ \int_{\gamma} f(z)dz = \sum_{i=1}^{n} \int_{\gamma_{[s_{i-1}, s_i]}}f(z)dz $$
+\end{definition}
+
+The lengths of curve $\gamma$ is given by 
+$$ l(y) = \int_a^b |\gamma'(t)|dt $$
+For piecewise $\gamma$,
+$$ l(\gamma) = \sum_{i=1}^{n} l(\gamma_i) $$
+
+\begin{example}
+Define $\gamma:[0. 2\pi] \to \mathbb{C}$, as $t \mapsto e^{it}$. Moreover define $f: \mathbb{C}- \{0\} \to \mathbb{C}$ to be $f(z) = \frac{1}{z}$. 
+$$ \int_{\gamma} f(z)dz = \int_0^{2\pi} \frac{1}{e^{it}} * ie^{it}dt = i \int_0^{2\pi}dt = 2\pi i $$
+\end{example}
+
+\begin{lemma} 
+Let $\gamma:[a,b] \to \mathbb{C}$ be piecewise smooth, and $f, \tilde{f}:\gamma* \to \mathbb{C}$. Then we have 
+\begin{enumerate}[(I)] 
+\item $\int_{\gamma} (f + \tilde{f})(z)dz = \int_{\gamma} f(z)dz + \int_{\gamma} \tilde{f}(z)dz $
+\item $\int_{\gamma} \lambda f(z)dz = \lambda \int_{\gamma}f(z)dz $
+\item $|\int_{\gamma} f(z)dz | \leq Ml(\gamma)$ where $M = \sup\{|f(z)|: z \in \gamma*\}$
+\item Let $c, d \in \mathbb{R}$, $c<d$ and $\varphi:[c,d] \to [a,b]$ be a continuously differentiable function such that $\varphi(c) = a$, and $\varphi(d) = b$. Suppose $\gamma$ is smooth or $\varphi$ is strictly increasing. Then $\gamma \circ \varphi$ is piecewise smooth and $\int_{\gamma}f(z)dz = \int_{\gamma \circ \varphi} f(z)dz$
+\item $f_k:\gamma* \to \mathbb{C}$ be continuous functions with $\lim f_k = f$ uniformly on $\gamma*$. Then 
+$$ \lim_{n \to \infty} \int_{\gamma}f_n(z)dz = \int_{\gamma} f(z)dz $$
+\item If $\gamma_1, \gamma_2$ are curves with $\gamma = \gamma_1 \oplus \gamma_2$, then 
+$$ \int_{\gamma} f(z)dz = \int_{\gamma_1} f(z)dz + \int_{\gamma_2}f(z)dz $$
+\end{enumerate} 
+\end{lemma}
+
+Proof of (IV): Suppose $\gamma$ is smooth, then 
+$$ \int_{\gamma \circ \varphi} f(z)dz = \int_{c}^d f(\gamma \circ \varphi(t)) (\gamma \circ \varphi)'(t)dt = \int_c^d f(\gamma(\varphi(t))) \gamma'(\varphi(t)) \varphi'(t)dt $$
+$$ = \int_a^b f(\gamma(\tilde{t})) \gamma'(\tilde{t})d\tilde{t} = \int_{\gamma} f(z)dz $$
+
+\begin{proposition}
+Let $U \subset \mathbb{C}$ be open, $f: U \to \C$ continuously differentiable, $\gamma : [a, b] \to \C$ be piecewise smooth with $\gamma^* \subset U$. Then 
+$$ \int_{\gamma} f'(z)dz = f(\gamma(b)) - f(\gamma(a)) $$
+\end{proposition}
+
+Proof: Suppose $\gamma$ is smooth (proof is almost the same). Then we have that 
+$$ \int_{\gamma} f'(z)dz = \int_a^b f'(\gamma(t))\gamma'(t)dt = \int_a^b (f \circ \gamma)'(t) dt = f(\gamma(b)) - f(\gamma(a)) $$
+where the last equality follows from FTC.
+
+\begin{corollary}
+Let $U \subset \C$ be open with $f: U \to \C$ be holomorphic and $f' = 0$. Suppose $\forall z_1, z_2 \in U$, there exists $\gamma :[0, 1] \to U$ with $\gamma(0) = z_1$ and $\gamma(1) = z_2$ where $\gamma$ is smooth. Then $f$ is constant.
+\end{corollary}
+
+\begin{remark}
+The above requirement is for $f$ to be constant when $f' = 0$ also includes that $U$ must be path connected. In general $f' = 0$ does not imply $f$ is constant.
+\end{remark}
+
+\begin{theorem}
+Suppose $\gamma:[a,b] \to \C$ be piecewise smooth and $g: \gamma^* \to \C$ a continuous function. Let $U = \C - \gamma*$ (it is open) and define $f: U \to \C$ as 
+$$f(z) = \int_{\gamma} \frac{g(w)}{w- z} dw$$
+Then $f$ is analytic. More specifically, let $z_0 \in U$, and 
+$$R = \inf\{ |w - z_0| : w \in \gamma*\}$$
+Then $R > 0$ and $\forall n \in N$ let $\alpha_n = \int_{\gamma} \frac{g(w)}{(w - z_0)^{n+1}} dw$. Then the power series $\sum \alpha_n(z - z_0)^n$ has a radius of convergence $> R$, and 
+$$ f(z) = \sum_{n=0}^{\infty} \alpha_n (z - z_0)^n $$
+\end{theorem}
+
+Proof: Note $\gamma*$ is closed since $\gamma$ is continuous, so $U$ is open. Let $z_0$ be given and $R$ defined as above. Let $z \in B_R(z_0)$. For $w \in \gamma*$, 
+$$ \left| \frac{z - z_0}{w - z_0} \right| \leq \frac{|z - z_0|}{R} < 1 $$
+Therefore, 
+$$ \frac{1}{w - z} = \frac{1}{(w - z_0) - (z - z_0)} = \frac{1}{w - z_0} * \frac{1}{1 - \frac{z - z_0}{w - z_0}} $$
+$$ = \frac{1}{w- z_0} \sum_{n=0}^{\infty} \left(\frac{z - z_0}{w - z_0}\right)^n $$
+since the series is absolutely convergent for $z \in B_R(z_0)$, and thus is convergent with the given formula. It is also true $\forall w in \gamma^*$. Now define $h, h_0, h_1, ...: \gamma* \to \C$ as 
+$$ h(w) = \frac{g(w)}{w-z}, \hspace{3mm} h_n(w) = \frac{g(w)(z - z_0)^n}{(w - z_0)^{n+1}} $$
+then on $\gamma^*$, $\lim_{n \to \infty} \sum_i^n h_i = h$. By Lemma 2.12 (VI) we have that 
+$$ f(z) = \int_{\gamma} h(w)dw = \sum_{n=0}^{\infty} \int_{\gamma}h_n(w)dw = \sum_{n = 0}^{\infty}(z - z_0)^n \int_{\gamma} \frac{g(w)}{(w - z_0)^{n-1}} dw $$
+$$ = \sum_{n = 0}^{\infty} \alpha_n (z - z_0)^n $$
+In particular, the series $\sum \alpha_n (z - z_0)^n$ converges $\forall z \in B_R(z_0)$. By Lemma 2.1, the power series has radius of convergence at least $R$.
+
+\begin{definition}
+Let $\gamma$ be a closed piecewise smooth curve. Define on $\C - \gamma^*$
+$$ \Ind_{\gamma}: \C - \gamma^* \to \C $$
+$$ z \mapsto \frac{1}{2\pi i}\int_{\gamma} \frac{1}{w-z} dw $$
+This is called the index function of $\gamma$ with respect to $z$.
+\end{definition}
+
+Note that $\Ind_{\gamma}$ is analytic. 
+
+\begin{proposition}
+Let $\gamma$ be a piecewise smooth closed curve. Then $\Ind_{\gamma}(z) \in \mathbb{Z}$ for all $z \in \C - \gamma^*$. Moreover there exists $R > 0$ such that $\Ind_{\gamma}(z) = 0$ for all $z \in \C - B_R(0)$
+\end{proposition}
+
+Proof: Let $\gamma:[a,b] \to \C$ be smooth. Define $f:[a, b] \to \C$ as $t \mapsto \int_a^t \frac{\gamma'(s)}{\gamma(s) - z} ds$. Then $f$ is differentiable and $f'(t) = \frac{\gamma'(t)}{\gamma(t) - z}$. Define $g:[a, b] \to \C$ by $g(t) = e^{-f(t)}(\gamma(t) - z)$. Then $g'(t) = 0$ (easily verifiable) and $[a,b]$ is path connected, so $g$ is constant. Therefore 
+$$ \frac{e^{f(t)}}{e^{f(a)}} = \frac{\gamma(t) - z}{\gamma(a) - z} $$
+Since $f(a) = 0$ and $\gamma(b) = \gamma(a)$, it follows that $e^{f(b)} = 1$ so $f(b) \in 2\pi i \mathbb{Z}$, but $f(b) = 2\pi i \Ind_{\gamma}(z)$, so we have $\Ind_{\gamma}(z) \in \mathbb{Z}$.
+
+Since $\gamma^*$ is bounded, $\exists r > 0$ such that $\gamma^* \subset B_r(0)$ and we have that 
+$$ |\Ind_{\gamma}(z)| \leq \frac{Kl(\gamma)}{R - r} $$
+where $R > r$ and $z \in \C - B_R(0)$ and $K$ is a constant in $\mathbb{R}$. Since $\Ind_{\gamma}(z) \in \mathbb{Z}$, for large enough $R$ we have $\Ind_{\gamma}(z) = 0$. Since $\Ind_{\gamma}(z) \in \mathbb{Z}$, we conclude for sufficiently large $R$, we conclude $\Ind_{\gamma}(z) = 0 $.
+
+\begin{corollary}
+Let $\gamma$ be a closed piecewise smooth curve, and $\varphi:[0, 1] \to \C - \gamma^*$ be continuous. Then $\Ind_{\gamma}(\varphi(0)) = \Ind_{\gamma}(\varphi(1))$.
+\end{corollary}
+
+\begin{definition}
+For all $z_0 \in \C$, $r>0$ define $\gamma:[0, 2\pi] \to \mathbb{C}$, as 
+$$ t \mapsto z_0 + re^{it} $$
+Then denote this curve by $\Gamma_r(z_0) = \gamma$.
+\end{definition}
+
+\begin{example}
+Let $z_0 \in \C$, $r > 0$. Then we have $\Ind_{\Gamma_r(z_0)}(z_0) = 1$. moreover, if $|z - z_0| > 3r$, then estimates show 
+$$ |\Ind_{\Gamma_r(z_0)}(z)| \leq \frac{1}{2} $$
+and by Corollary 2.18 we have that 
+$$ \Ind_{\Gamma_r(z_0)}(z) = \begin{cases} 1 & |z - z_0| < r \\ 0 & |z - z_0| > r \end{cases} $$
+\end{example}
+
+\subsection{Cauchy's Theorem for a triangle and a convex set}
+\begin{definition} 
+Let $z_1, z_2 \in \C$. Denote by $[z_1, z_2]$ the curve $\gamma:[0, 1] \to \C$ which maps $t \mapsto z_1 + t(z_2 - z_1)$. Let $z_3 \in C$. Then define 
+$$ \Delta(z_1, z_2, z_3) = \{ t_1z_1 + t_2z_2 + t_3z_3 | t_i \geq 0, \sum_i t_i = 1\} $$
+Denote also by $\partial \Delta(z_1, z_2, z_3)$ the piecewise smooth curve $\gamma:[0,3] \to \C$ by 
+$$ \gamma = [z_1, z_2] \oplus [z_2, z_3] \oplus [z_3, z_1] $$
+\end{definition}
+
+\begin{remark}
+$$ \int_{\partial\Delta} = \int_{[z_1, z_2]} + \int_{[z_2, z_3]} + \int_{[z_3, z_1]} $$
+If $z_1, z_2, z_3$ are collinear, then $\int_{\partial\Delta} = 0$.
+\end{remark}
+
+\begin{theorem}
+Cauchy-Goursat Theorem: Let $U \subset \C$ open, $p \in U$, $\Delta \subset U$, $f: U \to \C$ be continuous, and suppose $f: U - \{p\}$ be holomorphic. Then $\int_{\partial\Delta}f(z)dz = 0$.
+\end{theorem}
+
+Proof: There are 3 steps depending on where $p$ is relative to $\partial\Delta$.
+
+Step 1: Suppose $p \notin \Delta$. Then denote the midpoint of the sides of the triangle by $z_1', z_2', z_3'$ where $z_1' = \frac{z_2 + z_3}{2}$, and the others are defined similarly. Connect the $z_1', z_2', z_3'$ in the original triangle, and so we get 4 triangles. Label them $\Delta^(i)$ arbitrarily. Note that we have 
+$$ \int_{\partial\Delta} f(z)dz = \sum_{k=1}^4 \int_{\partial\Delta^(k)} f(z)dz $$
+so 
+$$ \int_{\partial\Delta} \leq \left|\int_{\partial\Delta} f(z)dz\right| \leq \sum_{k = 1}^4 \left|\int_{\partial\Delta^{(k)}} f(z)dz\right| \leq 4\left| \int_{\partial\Delta^{(i)}} f(z)dz \right|$$
+for some $i = 1, 2, 3, 4$. Let $\Delta_1 = \Delta^{(i)}$, and note that $l(\partial\Delta_1) = \frac{1}{2}l(\partial\Delta)$. By induction we can continue and make a sequence of closed triangles $\Delta_2, \Delta_3, ...$ with $\Delta_{k+1} \subset \Delta_{k}$ and 
+$$ \left|\int_{\partial\Delta_k} f(z)dz \right| \leq 4\left|\int_{\partial\Delta_{k+1}} f(z)dz\right| $$
+$$l(\Delta_{k+1}) = \frac{1}{2} l(\Delta_{k})$$
+Note that for all $z \in \partial\Delta_n$, $|z - z_0| < l(\partial\Delta_n)$.
+
+Thus
+$$ \left|\int_{\partial\Delta} f(z)dz \right| \leq 4^n\left|\int_{\partial\Delta_{n}} f(z)dz\right| $$
+$$l(\Delta_{n}) = \frac{1}{2^n} l(\Delta)$$
+By compactness, there exists $z_0 \in \cap_{n=1}^{\infty}\Delta_n$ and $z_0 \neq p$. So $f$ is differentiable at $z_0$ and so 
+$$ f(z) = f(z_0) + f'(z_0)(z - z_0) + \psi(z)(z - z_0) $$
+with $\psi:U\to\C$ continuous at $z_0$, and $\psi(z_0) = 0$. The map 
+$$ z \mapsto f(z_0) + f'(z_0)( z - z_0) $$
+comes from the derivative of the map 
+$$ z \mapsto f(z_0)z + \frac{1}{2}f'(z_0)(z - z_0)^2 $$
+Thus for all $n$,
+$$ \int_{\partial\Delta_n}f(z_0) + f'(z_0)(z - z_0)dz = 0 $$
+Therefore we get that 
+$$ \left| \int_{\partial\Delta_n} f(z)dz \right| = \left| \int_{\partial\Delta_n} f(z) - (f(z_0) + f'(z_0)(z - z_0))dz \right| = \left| \int_{\partial\Delta_n}(z - z_0)\psi(z)dz \right| $$
+$$ \leq l(\partial\Delta_n)\sup\{|(z - z_0)\psi(z)| : z \in\partial\Delta_n\} $$
+$$ \leq (l(\partial\Delta_n))^2\sup\{|\psi(z)|:z \in \partial\Delta_n\} $$
+Since $\psi$ is continuous at $z_0$ with $\psi(z_0) = 0$, for all $\epsilon > 0$ we have $\exists \delta > 0$ such that $|\psi(z)| < \epsilon$ for $z \in B_{\delta}(z_0) \cap U$. Since $\lim_{n \to \infty}l(\partial\Delta_n) = 0$ (then the diameter also goes to 0) we have that $\exists n \in \mathbb{N}$ such that $\bar{\Delta_n} \subset B_{\delta}(z_0)$. Then $\sup\{ |\psi(z)|: z \in \partial\Delta_n\} \leq \epsilon$ and 
+$$ \left| \int_{\partial\Delta_n} f(z)dz \right| \leq \epsilon(l(\partial\Delta))^2 = \frac{\epsilon}{4^n}$$
+Hence 
+$$ \left|\int_{\partial\Delta}f(z)dz \right| \leq 4^n \frac{\epsilon}{4^n} = \epsilon $$
+and we conclude that 
+$$ \int_{\partial\Delta}f(z)dz = 0 $$
+
+In the next step, suppose $p$ is a vertex. Then WLOG let $\Delta = \Delta(p, z_2, z_3)$. Let $\epsilon \in (0, 1)$ and set $p_2 = \epsilon z_2 + (1-\epsilon)p$ and $p_3 = \epsilon z_3 + (1- \epsilon)p$. Then we have that 
+$$ \int_{\partial\Delta} = \int_{\partial\Delta(p, p_2, p_3)} + \int_{\partial\Delta(p_2, z_2, z_3)} + \int_{\partial\Delta(p_3, p_2, z_3)} $$
+We have that the $2^{nd}$ and $3^{rd}$ integrals are zero by the earlier case, so we only need to consider the first integral. Denoting $\partial\Delta(p_1, p_2, p_3)$ by $\partial\Delta p$ we have that 
+$$ \left|\int_{\partial\Delta p}f(z)dz\right| \leq l(\partial\Delta_p) \sup\{|f(z)|:z \in \partial\Delta_p\}$$
+There exists $r > 0$ such that $\bar{B_r(p)} \subset U$ (by openness of $U$), and since $f$ is continuous $\exists M > 0$ such that $|f(z)| < M$ for all $z \in \bar{B_r(p)}$. If $\epsilon$ is small enough, then $\partial\Delta_p \subset B_r(p)$ and since $\lim_{\epsilon \to 0}l(\partial\Delta_p) = 0$, we get that 
+$$ l(\partial\Delta_p)\sup\{|f(z)|:z \in \partial\Delta_p\} \leq \epsilon' $$
+proving the desired.
+
+For the case that $p$ is not a vertex but $p \in \Delta$, consider the integral 
+$$ \int_{\partial\Delta(z_1, z_2, z_3)} = \int_{\partial\Delta(z_1, z_2, p)} + \int_{\partial\Delta(p, z_2, z_3)} + \int_{\partial\Delta(z_3, z_1, p)} $$
+All three of the integrals are $0$ by case 2, and we are done.
+
+We define a set $A \subset \mathbb{C}$ to be convex if 
+$$ tz_1 + (1-t)z_2 \in A $$ 
+for all $z_1, z_2 \in A$, $t \in [0, 1]$. 
+
+\begin{proposition}
+Let $U \subset \mathbb{C}$ be open and convex, $f: U \to \C$ continuous such that 
+$$ \int_{\partial\Delta} f(z)dz = 0 $$
+for all $\Delta \subset U$. Then $\exists F: U \to C$ holomorphic such that $F' = f$.
+\end{proposition}
+
+Proof: Fix $a \in U$ and define $F: U \to \C$ by $F(z) = \int_{[a,z]}f(w)dw$. Fix $z_0 \in U$ and let $z \in U$. Then we have that 
+$$ 0 = \int_{\partial\Delta(a, z, z_0)} f(w)dw = \int_{[a,z]}f(w)dw + \int_{[z, z_0]}f(w)dw + \int_{[z_0, a]}f(w)dw $$
+$$ = F(z) + \int_{[z, z_0]}f(w)dw - F(z_0) $$
+Now let $\epsilon > 0$, since $f$ is continuous at $z_0$ we have $\exists \delta >0$ such that $|f(z) - f(z_0)| < \epsilon$, for all $|z - z_0| < \delta$. We can write 
+$$ \frac{F(z) - F(z_0)}{z - z_0} - f(z_0) = \frac{1}{z - z_0} \int_{[z_0, z]} (f(w) - f(z_0))dz $$ 
+and so for all $z \in B_r(z_0)$,
+$$ \left| \frac{F(z) - F(z_0)}{z - z_0} - f(z_0)\right| \leq \frac{1}{|z - z_0|} \int_{[z_0, z]} |f(w) - f(z_0)|dw \leq \frac{1}{|z - z_0|} l([z_0, z]) \epsilon \leq \epsilon $$
+for all $z in U$ $\delta$ close to $z_0$. Thus $F'(z_0) = f(z_0)$.
+
+\begin{corollary}
+Let $U$ be open and convex with $p \in U$, $f:U\to\C$ continuous who is holomorphic off $p$. Then $f = F'$ for some holomorphic function $F: U \to \mathbb{C}$. Explicitly, $\forall a \in U$, we have that $F(z) = \int_{[a,z]} f(w)dw$.
+\end{corollary}
+
+Proof: Because $f$ is holomorphic off $p$, by Cauchy-Goursat, $\int_{\Delta} f(z)dz = 0$ for all $\Delta \in U$, and thus by Theorem 2.23 we have $F$ as defined in the proof of the theorem.
+
+\begin{theorem}
+Cauchy's theorem for a convex set. Let $U$ be convex and open, and $p \in U$. Suppose $f:U \to \C$ continuous on $U$ and holomorphic on $U - \{p\}$. Then $\int_{\gamma}f(z)dz = 0$ where $\gamma$ is a closed piecewise smooth curve inside of $U$.
+\end{theorem}
+
+Proof: $\exists F$ such that 
+$$ \int_{\gamma}f(z)dz = \int_{\gamma}F'(z)dz = 0 $$
+
+\subsection{Holomorphicity implies Analycity}
+
+\begin{theorem}
+Let $U$ be open and convex., $\gamma$ be piecewise smooth closed, and $\gamma* \subset U$. $f: U \to \C$ holomorphic. Then $\forall z \in U - \gamma^*$, we have 
+$$ f(z)\Ind_{\gamma}(z) = \frac{1}{2\pi i}\int_{\gamma}\frac{f(w)}{w - z}dw $$
+\end{theorem}
+
+Proof: Let $z \in U - \gamma^*$, and define 
+$$ g(w) = \begin{cases} \frac{f(w) - f(z)}{w - z} & w \in U - \{z\} \\ f'(z) & w = z \end{cases} $$
+Note that $g$ is continuous and holomorphic on $U - \{z\}$. By Theorem 2.25,
+$$ 0 = \frac{1}{2\pi i} \int_{\gamma}g(w)dw = \frac{1}{2\pi i} \int_{\gamma} \frac{f(w)}{w-z}dw - \frac{1}{2\pi i}\int_{\gamma}\frac{f(z)}{w-z}dw $$
+as desired.
+
+\begin{theorem}
+Every holomorphic function is analytic. Stronger, $U$ is open, $f: U \to \C$ is holomorphic. Let $z_0 \in U$, $r > 0$ such that $B_r(z_0) \subset U$. Then there exists power series $\sum \alpha_n(z - z_0)^n$ which has radius of convergence at least $r$, and $f(z) = \sum_{n=0}^{\infty}\alpha_n(z - z_0)^n$ for all $z \in B_r(z_0)$.
+\end{theorem}
+
+Proof: Consider $\rho \in (0, r)$. Then $\Gamma_{\rho}(z_0) \subset U$ and $\forall z \in B_{\rho}(z_0)$ we have $\Ind_{\Gamma_{\rho}(z_0)}(z) = 1$. Then restrict $f$ to $B_{\frac{r + \rho}{2}}(z_0)$ and we get that 
+$$ f(z) = \frac{1}{2\pi i} \int_{\Gamma_{\rho}(z_0)} \frac{f(w)}{w - z} dw $$
+for all $z \in B_{\rho}(z_0)$. Consider the function 
+$$ z \mapsto_{\Gamma_{\rho}(z_0)} \frac{f(w)}{w-z} dw $$
+Theorem 2.15  says this function is analytic. Thus it is infinitely differentiable on $B_{\rho}(z_0)$ and the power series $\sum \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n$ has radius of convergence of at least $\rho$. Thus we get that it has radius of convergence $\geq r$ and 
+$$ f(z) = \sum_{n=0}^{\infty} \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n $$
+
+\begin{corollary} 
+$f$ holomorphic implies that $f'$ is holomorphic.
+\end{corollary}
+
+\begin{theorem}
+Morera's Theorem: Let $U$ be open, $f:U\to\C$ continuous. Then $f$ is holomorphic if and only if $\forall \Delta \subset U$ we have 
+$$ \int_{\partial\Delta}f(z)dz = 0 $$
+\end{theorem}
+
+Proof: The forward is obvious from Cauchy-Goursat. For the reverse, it is sufficient to prove it for an open ball. Suppose $U$ is convex, then by Theorem 2.23, $f = F'$ on the convex set. Then applying the Fundamental Theorem of Calculus and using the fact that $\partial\Delta$ is closed, we get the desired result.
+
+\begin{lemma}
+Let $a\in U$ which is open, and $f: U \to \mathbb{C}$ continuous on $U$ and holomorphic off $a$. Then $f$ is holomorphic.  
+\end{lemma}
+
+\subsection{Estimates and Consequences}
+\begin{lemma}
+Let $U \subset \C$ be open, $a \in U$, and $r > 0$. Then $\overline{B_r(a)} \subset U$ if and only if $\exists R \in (r, \infty)$ such that $B_R(a) \subset U$.
+\end{lemma}
+
+\begin{proposition}
+Let $U$ be open, $f: U \to \C$ holomorphic, $a \in U$, $r > 0$, such that $\overline{B_r(a)} \subset U$. Then 
+$$ f^{(n)}(z) = \frac{n!}{2\pi i} \int_{\Gamma_r(a)} \frac{f(z)}{(w-z)^{n+1}} dw $$
+\end{proposition}
+
+Proof: Cauchy's Formula (Theorem 2.26) gives 
+$$ f(z) = \frac{1}{2\pi i} \int_{\Gamma_r(a)} \frac{f(w)}{w-z} dw $$
+for all $z \in B_r(a)$. Then by Theorem 2.15 the result is true. 
+
+\begin{corollary}
+Cauchy's Inequality: Let $U$, $f: U \to \C$, $a$, $r$ defined as above. Then we have that 
+$$ |f^{(n)}(z)| \leq n! \frac{r}{(r - |z - a|)^{n+1}} \max_{w \in \partial B_r(a)} |f(w)| $$
+Moreover if $z \in B_{\frac{r}{2}}(a)$, then 
+$$ |f^{(n)}(z)| \leq \frac{n!2^{n+1}}{r^n} \max_{w \in \partial B_r(a)} |f(w)| $$
+\end{corollary}
+
+Proof: By Theorem 2.22, the fact that for all $w\in\partial B_r(a)$, 
+$$|w - z| \geq r - |z - a|$$
+ and lemma 2.12(III) this is true.
+ 
+ \begin{definition}
+ A holomorphic function whose domain in $\C$ is called an "entire" function.
+ \end{definition}
+ 
+ \begin{theorem}
+ Liouville: Every bounded holomorphic function $f$ is constant.
+ \end{theorem}
+ 
+ Proof: Let $f$ be entire, bounded by $M$. It follows from Corollary 2.23 that 
+ $$ f'(a) \leq \frac{M}{r} $$
+ for all $a \in C$, $r > 0$. Therefore $f' = 0$ and vanishes on the connected set $\C$ and thus is constant.
+ 
+ \begin{lemma}
+ Let $f$ be nonzero polynomial of degree $n \in \mathbb{N}_0$, then there exists $\mu > 0$ and $R > 1$ such that 
+ $$ |f(z)| \geq \mu |z|^n $$
+ for all $z \in \C$ with $|z| > R$. In particular, $|f(z)| > \mu$.
+ \end{lemma}
+ 
+ \begin{corollary}
+ Fundamental Theorem of Algebra
+ \end{corollary}
+ 
+ Proof: Let $f$ be a polynomial without roots. By Lemma 2.36, there exists $R > 0$ such that $\frac{1}{f}$ is bounded on $\C - B_R(0)$. Obviously $\frac{1}{f}$ is bounded on $\overline{B_R(0)}$, and so by Liouville's Theorem, $\frac{1}{f}$ is constant.
+ 
+ \begin{proposition}
+ Let $r > 0$, $\sum \alpha_n z^n$, $\sum \beta_n z^n$ be a power series both with radius of convergence at least $r$. Then for all $n \in \mathbb{N}_0$ define 
+ $$ \gamma_n = \alpha_n\beta_0 + \alpha_{n-1}\beta_1 + ,,, + \alpha_0\beta_n$$
+ Then the power series $\sum \gamma_n z^n$ has radius of convergence at least $r$.
+ \end{proposition}
+ 
+ Proof: Let $f(z) = \sum \alpha_n z^n$ and $g(z) = \sum \beta_n z^n$ and $f, g: B_r(0) \to \C$ be holomorphic on its domain. Then $f g$ is also holomorphic on $B_r(0)$ and thus is analytic by Theorem 2.27; the power series of $fg$ has radius at least $r$. If $z \in B_r(0)$, then 
+ $$ (fg)(z) = \sum_{n=0}^{\infty} \frac{(fg)^{(n)}(0)}{n!} z^n $$  
+ Then we can verify that 
+ $$ \frac{(f*g)^{(n)}(x)}{n!} = \frac{1}{n!} \sum_{k=0}^{\infty} \binom{n}{k} f^{(k)}(x)g^{(n-k)}(x) = ... = \gamma_n $$
+
+\begin{proposition}
+Let $U \subset \C$ be open, $R >0$ such that $\overline{B_R(0)} \subset U$, and $f: U \to \C$ be holomorphic. Then $\forall z \in B_R(0)$ we have that 
+$$ f(z) = \frac{1}{2\pi} \int_0^{2\pi} f(Re^{i\theta}) \frac{R^2 - |z|^2}{|Re^{i\theta} - z|^2} d\theta $$
+\end{proposition}
+
+Proof: Let $z_0 \in B_R(0)$, then 
+$$ z \mapsto \frac{f(z)}{R^2 - \bar{z}_0z} $$
+is holomorphic on $B_{R^2 / |z_0|^2} \cap U$. Then we have that $\forall z \in B_R(0)$, 
+$$ \frac{f(z)}{R^2 - \bar{z}_0z} = \frac{1}{2\pi i} \int_{\Gamma_R(0)} \frac{f(w)}{R^2 - \bar{z_0}w} \frac{1}{w-z}dw $$
+Now replace $z_0$ by $z$, and $R^2$ by $w\bar{w}$ to get 
+$$ \frac{f(z)}{R^2 - |z|^2} = \frac{1}{2\pi i}\int_{\Gamma_R(0)} \frac{f(w)}{w\bar{w} - \bar{z}w} \frac{1}{w-z} dw = \frac{1}{2\pi i} \int_{\Gamma_R(0)} \frac{f(w)}{|w - z|^2} \frac{1}{w} dw $$
+$$ = \frac{1}{2\pi}\int_0^{2\pi} \frac{f(Re^{i\theta})}{|Re^{i\theta} - z|^2}dw $$
+as desired.
+
+\subsection{Locally Uniform Convergence}
+\begin{definition}
+Let $U\subset\C$ be open, $f, f_1, f_2,... : U \to \C$ be continuous. We say $\lim_{n\to\infty} f_n = f$ locally uniform on $U$ if $\forall a \in U$, there exists $r > 0$ such that $B_r(a) \subset U$ and $\lim_{n\to\infty} f_n|_{B_r(a)} = f|_{B_r(a)}$ uniformly. 
+\end{definition}
+
+\begin{example}
+Place-holder
+\end{example}
+
+\begin{theorem}
+Weierstrass: Let $U\subset\C$ be open, $f_1, f_2, f_3,... :U \to \C$ with $f_k$ holomorphic, and $\lim_{n\to\infty}f_n = f$ locally uniformly. Then $f$ is holomorphic and $\lim_{n\to\infty}f_n' = f'$ locally uniformly.
+\end{theorem}
+
+Proof: Let $a \in U$. So on $B_R(a)$ the convergence is uniform. Then $f$ is continuous and by Theorem 2.29, 
+$$ \int_{\partial\Delta} f_k(z)dz = 0, \hspace{3mm} \forall k, \hspace{3mm} \forall \Delta \subset B_R(a) $$
+Thus this implies 
+$$ \int_{\partial\Delta} f(z)dz = 0, \hspace{3mm} \forall k, \hspace{3mm} \forall \Delta \subset B_R(a) $$
+and so by Morera's Theorem, $f$ is holomorphic on $B_R(a)$. Now let $a \in U$, $r > 0$ and $B_{2r}(a) \subset U$ such that $\lim f_n = f$ luniformly on $\overline{B_{2r}(a)}$. Thus we have that $\lim f_n = f$ uniformly on $\partial B_r(a)$. We have that for all $z \in B_{\frac{r}{2}}(a)$,
+$$ |f^{(n)}(z)| \leq \frac{n!2^{n+1}}{r^n} \max_{w \in \partial B_r(a)} |f(w)| $$
+Thus we have that 
+$$ |f'(z) - f'_n(z)| \leq \frac{4}{r} \max_{w\in B_r(a)} |f(w) - f_n(w)| $$
+Thus $\lim f_n' = f'$ uniformly on $B_{\frac{r}{2}}(a)$.
+
+\begin{corollary}
+Let $r > 0$, $f, f_1, f_2, ...: B_r(0) \to \C$ holomorphic, and let $\sum \alpha_n^{(k)}z^n$ be the power series of $f_k$. Then if $\lim f_k = f$ locally uniformly, then $\alpha_n = \lim_{k \to \infty}\alpha_n^{(k)}$ for all $n \in \mathbb{N}$ where $\sum \alpha_n z^n$ is the power series of $f$. 
+\end{corollary}
+
+Proof: By induction on the previous theorem, $\lim_{k \to\infty} f_k^{(n)} = f^{(n)}$. In particular, the result follows at $z = 0$,
+$$ f_k^{(n)}(0) = n! \alpha_n^{(k)} $$
+
+\section{Basic Theory}
+
+\subsection{Introduction}
+\begin{proposition}
+Let $U$ be open, nonempty. Then the following are equivalent 
+\begin{enumerate}[(I)]
+\item For any open $U_1, U_2$, with $U = U_1 \cup U_2$, $U_1 \cap U_2 = \emptyset$, then $U = U_1$ or $U = U_2$.
+\item $\forall p, q\in U$, there exists piecewise smooth path $\gamma^* \subset U$ such that $\gamma(a) = p$, $\gamma(b) = q$
+\item Every continuous function $f:U \to\{0,1\}$ is constant.
+\end{enumerate}
+\end{proposition}
+
+Proof: Suppose (I) is true. Let $p \in U$ and define $U_1 = \{ q \in U | \exists \gamma, \gamma(a) = p, \gamma(b) = q\}$, ie the set of points which are path connected to $p$. $U$ is open, so given $q \in U_1$, there exists $r>0$ such that $B_r(q) \subset U$. We have that for all $q' \in B_r(q)$, there is a path $\gamma'$ from $q$ to $q'$ (a ball is convex). Thus $B_r(q) \subset U_1$, and so $U_1$ is open. Define $U_2 = U - U_1$. Note that $U_2$ must be open: let $u \in U_2$ and suppose there exists $r >0$ such that $B_r(u) \subset U$. If it has nontrivial intersection with $U_1$, then since $B_r(u) \subset U$ and there is a path between the intersection and $u$, we have that $u \in U_1$, a contradiction. Thus $B_r(u) \subset U_2$, and su $U_2$ is open. Thus by (I), $U = U_1$, so (II) is true.
+
+Suppose (II) is true. Let $\varphi:U \to \{0, 1\}$ be a continuous function such that it is non-constant, there exists $p,q$ such that $\varphi(p) = 0$, $\varphi(q) = 1$. By (II) there exists a piecewise smooth curve $\gamma$ inside $U$, such that $\gamma(a) = p$, $\gamma(b) = q$. We have that $\varphi \circ \gamma: [a,b] \to \{0, 1\}$ is continuous, and so the intermediate value theorem gives us $c$ in $[a,b]$ such that $\varphi(\gamma(c)) = \frac{1}{2}$, a contradiction.
+
+Suppose (III) is true. Let $U_1$, $U_2$ be open with $U_1 \cup U_2 = U$ and $U_1 \cap U_2 = \emptyset$. Define $\varphi:U \to \{0,1\}$ by 
+$$ \varphi(p) = \begin{cases} 0 & p \in U_1 \\ 1 & p \in U_2 \end{cases} $$
+We can verify that $\varphi$ is continuous because its inverse image for every open set in $\{0,1\}$ is open, and so it is constant. Thus $U = U_1$ or $U = U_2$. 
+
+\begin{definition}
+The above conditions define connectedness of an open set.
+\end{definition}
+
+\begin{definition}
+We can define a domain or region as an open non-empty connected subset of $\C$.
+\end{definition}
+
+\begin{corollary}
+If $U$ is open and connected, $f: U\to\C$ holomorphic with $f' = 0$, then $f$ is constant.
+\end{corollary}
+
+\subsection{Zeros of Holmorphic Functions}
+\begin{definition}
+Let $U$ be open, $a \in U$ with $f: U \to \C$ and $f(a) = 0$. Then we say that $a$ is an \textbf{isolated singularity} for $f$ if there exists $r>0$ such that $B_r(a)\subset U$ and $\forall z \in B_r(a) - \{ a\}$, we have $f(z) \neq 0$.
+
+We say $a$ is a zero of infinite order if $f^{(n)}(a) = 0$ for all $n \in \mathbb{N}$.
+
+We say $a$ is a zero of finite order (m) if there exists $m \in \mathbb{N}$ such that $f^{(m)}(a) \neq 0$, and $f^{(k)}(a) = 0$ for all $k < m$.
+\end{definition}
+
+\begin{proposition} 
+Let $U$ be open, $a\in U$, and $f:U\to\C$ be holomorphic, and that $f(a) = 0$. Then there exists $r > 0$ such that $B_r(a) \subset U$ and either 
+\begin{enumerate}[(I)]
+\item $f(z) = 0$ for all $z \in B_r(a)$
+\item $f(z) \neq 0$ for all $z \in B_r(a) - \{a\}$
+\end{enumerate}
+Case (I) occurs if and only if $a$ is a zero of infinite order. If $a$ is a zero of finite order, say $N \in \mathbb{N}_0$ then there exists unique $g: B_r(a) \to \C$ holomorphic, $g(a) = 0$ and $f(z) = (z-a)^ng(z)$ for all $z \in B_r(a)$.
+\end{proposition}
+
+Proof: Take $R > 0$ such that $B_R(a) \subset U$. BY Theorem 2.27, $f$ has a power series, $\sum \alpha_n (z- a)^n$ which is convergent uniformly on $B_R(a)$. Recall $\alpha_n = \frac{f^{(n)}(a)}{n!}$. If $\alpha_n = 0$ for all $n$ then $f(z) = 0$ for all $z \in B_R(a)$ and Case (I) is satisfied with $r = R$.
+
+Suppose it is not a zero of order $\infty$. Take $N \in \mathbb{N}$ minimal such that $f^{(N)}(a) \neq 0$, so $\alpha_0 = \alpha_1 = ... \alpha_{n-1} = 0$. Then 
+$$ f(z) = \sum_{n=N}^\infty \alpha_n(z-a)^n = (z-a)^N\sum_{k=0}^{\infty}\alpha_{N+k}(z-a)^k $$
+for all $z \in B_R(a)$. Define $g:B_R(0)\to\C$ by $g(z) = \sum_{n=0}^{\infty} \beta_n(z-a)^n$ where $\beta_n = \alpha_{N + n}$. Restrict the domain of $g$ such that the image of $g$ does not have $0$ (possible by continuity). Then $g$ is holomorphic (because its analytic?), and satisfies the conditions of Case (II).
+
+\begin{lemma}
+Let $U$ be open, $u \in U$, and $f$ holomorphic. Let $N \in \mathbb{N}$, then $f$ has a zero at $a$ of order $N$ if and only if 
+$$ \lim_{z\to a} \frac{f(z)}{(z-a)^N}$$
+exists and is nonzero.
+\end{lemma}
+
+Proof: Forward direction comes from the previous proposition. Now consider 
+$$ \lim_{z\to a} \frac{f(z)}{(z-a)^N} $$
+where $f(a) = 0$. We know by the previous proposition that $a$ is not a zero of infinite order. Let $M$ be the order of $a$. Then there exists $g: U \to \C$ non-zero at $a$ and $f(z) = (z-a)^Mg(z)$. Therefore
+$$ \lim_{z\to a} \frac{(z-a)^M g(z)}{(z-a)^N} $$
+exists and is nonzero. Thus 
+$$ \lim_{z \to a}(z-a)^{M-N}g(z) \neq 0 $$
+and so $M = N$.
+
+\begin{theorem}
+Let $U$ be open and connected with $a \in U$, $r > 0$. Suppose $f:U \to \C$ be holomorphic and $f|_{B_r(a)} = -$. Then $f = 0$ on $U$.
+\end{theorem}
+
+Proof: Let 
+$$U_1 = \{ p \in U | \exists s > 0, f|_{B_s(p)} = 0\}$$
+$$ U_2 = \{ p \in U | \exists s > 0, f(z) \neq 0, z \in B_s(p) - \{ p \} \} $$
+Clearly both $U_1$ and $U_2$ are open, and we have that $U = U_1 \cup U_2$ by Proposition 3.6. Thus since $U$ is connected, $U = U_1$ or $U = U_2$. Since $a \in U_1$, we have $U = U_1$, and we are done. 
+
+\begin{corollary}
+Let $U$ be open, connected, $V \subset U$ be open and non-empty. Then $f,g: U \to \C$ holomorphic and $f|_V = g|_V$ implies $f = g$.
+\end{corollary}
+
+\begin{corollary}
+Let $U$ be open and connected, $f:U\to\C$. Suppose there exists a sequence of different zeroes of $f$ which converge to a point in $U$. Then $f = 0$. 
+\end{corollary}
+Proof: By Proposition 3.6, $f$ is zero on some open ball centered at the limit point. Thus $f$ is $0$ on $U$ by Theorem 3.8.
+
+\subsection{Isolated Singularities}
+\begin{definition}
+Let $U$ be open, $a \in U$, and $f: U - \{ a\}$ be holomorphic, We say that $a$ is an \textbf{isolated singularity} of $f$. We say that $a$ is a \textbf{removable singularity} of $f$ is there exists holomorphic function $g: U \to \C$ such that $g | _{U - \{a\}} = f$. 
+\end{definition}
+
+\begin{theorem}
+Riemann: Let $U$ be open, $a \in U$, and $f: U - \{ a \} \to \C$ be holomorphic. Suppose $\exists r > 0$ with $B_r(a) \subset U$ and $f|_{B_r(a) - \{a\}}$ is bounded, then $a$ is a removable singularity. 
+\end{theorem}
+
+Proof: Define the function $h: U \to \C$ by 
+$$ h(z) = \begin{cases} (z - a)f(z) & z \in U - \{ a\} \\ 0 & z = a \end{cases} $$
+$h$ is holomorphic on $U - \{ a \}$. Since $f$ is bounded, $\lim_{z \to a} h(z) = 0$, so $h$ is continuous on $U$. Then $h$ is holomorphic on $U$ by Lemma 2.30 (Cauchy-Goursat's Theorem and Morera's Theorem). Proposition 1.14(II) gives continuous $g: U \to \C$ such that 
+$$ h(z) = h(a) + (z-a)g(z) $$
+Note that $g$ is holomorphic on $g: U - \{ a \}$ but continuous at $a$, and so by Lemma 2.30 again $g$ is holomorphic. Since $h(a) = 0$, $g$ is defined as desired. 
+
+\begin{theorem}
+Casorati-Weierstrass: Let $U$ be open, $a \in U$, $f: U - \{ a \} \to \C$ be holomorphic. Then one of the following 3 occurs:
+\begin{enumerate}[(I)]
+\item point $a$ is removable
+\item There exists $m \in \mathbb{N}$ and $c_1, ..., c_m \in \C$ such that $c_m \neq 0$ and the function 
+$$ z \mapsto f(z) - \sum_{k=1}^{m}\frac{c_k}{(z-a)^k} $$
+gas a removable singularity at $a$.
+\item For all $r > 0$ such that $B_r(a) \subset U$, the set $f(B_r(a) - \{a\})$ is dense in $\C$ 
+\end{enumerate}
+\end{theorem}
+
+
+\end{document}

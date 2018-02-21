@@ -1,0 +1,170 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+\newcommand{\re}[0]{\text{Re}}
+\newcommand{\im}[0]{\text{Im}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ind}{\text{Ind}}
+
+\title{Math H185 Homework 1}
+\author{Eric Xia}
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}[(1)]
+
+\item Let $f: \{z \in \C : \re(z) \geq 0 \} \to \C$ be a continuous function and suppose that 
+$$ \lim_{R \to \infty} \sup\{|f(Re^{it})|:t \in [0, \pi]\} = 0 $$
+For all $R > 0$ and define $\gamma_R:[0, \pi] \to C$ by $\gamma_R(t) = Re^{it}$. Fix $m > 0$. Prove that 
+$$ \lim_{R \to \infty}\int_{\gamma_R}e^{imz} f(z)dz = 0 $$
+
+Solution: Note we have that for every $\epsilon > 0$ there exists $R_{\epsilon}$ such that for all $R > R_{\epsilon}$ we have that $|f(Re^{it})| < \epsilon$. Then we have that for sufficiently large $R$. We also have that 
+$$ \int_{\gamma_R} e^{imz}f(z)dz = \int_0^{\pi}e^{imRe^{it}}iRe^{it}f(Re^{it})dt $$
+Taking an absolute value we get 
+$$ |\int_{\gamma_R}e^{imz}f(z)dz| \leq \int_{\gamma_R}|e^{imz}f(z)|dz \leq \int_0^{\pi} |e^{imRe^{it}}||iRe^{it}||f(Re^{it})|dt $$
+$$ \leq \epsilon R \int_0^{\pi} |e^{imR(\cos t + i\sin t)}|dt = \epsilon R\int_0^{\pi}|e^{-Rm\sin t}| |e^{iRm\cos t}|dt  $$
+Note we have that $|e^{iRm\cos t}| \leq 1$ since $Rm \cos t \in \R$. We get the integral is less than
+$$ \epsilon R \int_0^{\pi} e^{-Rm \sin t}dt $$
+Note that we have 
+$$ \int_0^{\pi}e^{-Rm\sin t}dt = \pi e^{-Rm\sin x} $$
+where $x \in [0, \pi]$ by the Mean-Value Theorem. Note that $\sin x \neq 0$ because we have $\sin t > 0$ for our interval and 
+$$ \int_{0}^{\frac{\pi}{4}} (e^{-Rm \sin t} - 1)dt + \int_{\frac{\pi}{4}}^{\pi} (e^{-Rm \sin t} - 1)dt < 0$$
+Since the integrand of the left integral is $<0$ on the entire region of integration and the integrand of the right integral is $\leq 0$. Thus 
+$$ \pi e^{-Rm\sin x} = \int_0^{\pi} e^{-Rm \sin t} < \pi $$
+and so $\sin x$ must be positive, otherwise the above inequality fails. Thus we have that 
+$$ \epsilon R \int_0^{\pi} e^{-Rm \sin t}dt = \epsilon R \pi e^{-cR} = \epsilon\pi \frac{R}{e^{cR}} $$
+where $c > 0$. And the limit as $R \to \infty$ (starting from $R > R_{\epsilon}$) of this expression is $0$ (since exponential terms dominates polynomials) proving the desired.
+
+
+
+\item Let $U \subset \C$ be an open set with $0 \in U$, and $f: U \to \C$ a continuous function. Prove that 
+$$ \lim_{r \to 0^+}\int_0^{\pi} f(re^{it})dt = \pi f(0) $$
+
+Solution: We have that $f$ is continuous at $0$, so for all $\epsilon > 0$ there exists $\delta > 0$ such that $|z| < \delta$ implies that $|f(z) - f(0)| < \frac{\epsilon}{\pi}$. Thus if $0 < r < \delta$, then $|f(re^{it}) - f(0)| < \frac{\epsilon}{\pi}$. Thus we get that 
+$$ \pi(f(0) - \frac{\epsilon}{\pi}) < \int_0^{\pi}f(re^{it})dt < \pi(f(0) + \frac{\epsilon}{\pi}) $$
+and so we get that 
+$$ |\int_0^{\pi}f(re^{it})dt - \pi f(0)| < \epsilon $$
+as desired.
+
+\item \begin{enumerate}[(a)] 
+\item Let $a \in \C$, $f \in (0, \infty)$ and $f:B_r(a) \to C$ be a holomorphic function. Suppose that $f(B_r(a)) \subset \R$. Prove that $f$ is constant. 
+
+Solution: Pick $z \in B_r(a)$ and a ball $B_\delta(z)$. Let $z = a+bi$, and consider the derivative of $f$ approaching from the real side, ie $z' = a' + bi$. We have that 
+$$ f'(z) = \lim_{a' \to a}\frac{f(z) - f(z')}{z - z'} = \lim_{b \to b'}\frac{c}{a-a'} $$
+Note that both the numerator and denominator are real so $f'(z)$ is real. Also now let $z'$ approach from the imaginary side, ie $z' = a + b'i$. We also have that 
+$$ f'(z) = \lim_{b' \to b}\frac{f(z) - f(z')}{z - z'} = \lim_{b' \to b} \frac{c}{(b-b')i} $$
+which is an imaginary number whose real component is zero. Thus the only number which is simultaneously real and imaginary with no real component is $0$, and so $f'(z) = 0$ for all $z$. Note that since $B_r(a)$ is path-connected (draw a line between two points and let that be the path), we have that by Corollary 2.14 the function is constant on the domain.
+
+\item Give an example of an open $U \subset \C$ and a holomorphic function $f: U \to \C$ such that $f(U) \subset \R$ and $f$ is not constant.
+
+Solution: Let $U = B_{1}(-2) \cup B_{1}(2)$
+and 
+$$ f(B_{1}(-2)) = \{ -1 \}, f(B_{1}(2)) = \{ 1 \} $$
+$U$ is open since it is the union of open sets, and $f$ is clearly holomorphic with derivative $0$ everywhere, mapping to values only on the real line, but it is not connected.
+
+\end{enumerate}
+
+\item Let $a, b \in R$ with $a<b$. Let $f:[a,b]\to\C$ be a continuous function. Define $F: \C \to \C$ by 
+$$ F(z) = \int_a^b e^{-tz}f(t)dt $$
+Prove that $F$ is holomorphic and 
+$$F'(z) = -\int_a^b e^{-tz}tf(t)dt $$
+for all $z \in \C$.
+
+Solution: We can expand using the power series.
+$$ F(z) = \int_a^b e^{-tz}f(t)dt = \int_a^b (1 - tz + \frac{t^2z^2}{2!} - \frac{t^3z^3}{3!} + ...) f(t)dt $$
+Because of uniform convergence extends to the derivative of the power series, we can just differentiate with respect to $z$ (or for those who want more rigor, we break the integral of sums to a sum of integrals, then factor the $z$ out and differentiate, then put it back together) and we get that 
+$$ F'(z) = \int_a^b (-t + t^2z - \frac{t^3z^2}{2!} + \frac{t^4z^3}{3!} - ...)f(t)dt  $$
+$$ =\int_a^b \left(1 - tz + \frac{t^2z^2}{2!} - \frac{t^3z^3}{3!} + ...\right)(-t)f(t)dt = - \int_a^b e^{-tz}tf(t)dt $$
+as desired.
+
+\item Let $(a_n)_{n\in\mathbb{N}}$ be the Fibonacci sequence. Consider the power series $\sum a_nz^n$. 
+
+\begin{enumerate}[(a)]
+\item Prove that the radius of convergence of the power series is at least $\frac{\sqrt{5} - 1}{2}$.
+
+Solution: Note clearly that $|a_0| \leq 1$. We will then show by induction that $|a_n| \leq \left(\frac{\sqrt{5} + 1}{2}\right)^n$. Suppose that it is true for $n$ and $n-1$. Then we have that 
+$$ |a_{n+1}| = |a_n + a_{n-1}| \leq |a_n| + |a_{n-1}| = \left(\frac{\sqrt{5} + 1}{2}\right)^n + \left(\frac{\sqrt{5} + 1}{2}\right)^{n-1} $$
+$$= \left(\frac{\sqrt{5} + 1}{2}\right)^{n-1}\left(\left(\frac{\sqrt{5} + 1}{2}\right) + 1\right) =  \left(\frac{\sqrt{5} + 1}{2}\right)^{n-1}\left(\frac{\sqrt{5} + 3}{2}\right) = \left(\frac{\sqrt{5} + 1}{2}\right)^{n + 1}$$ 
+using the fact that $\left(\frac{\sqrt{5} + 1}{2}\right)^2 = \left(\frac{\sqrt{5} + 3}{2}\right)$, getting the desired result. Using the root test on $\left(\frac{\sqrt{5} + 1}{2}\right)^n$ (and ignoring the limit supremum since its the same for all $n$) we have 
+$$ \lim_{n\to\infty}\sup a_n \leq \lim_{n\to\infty} \sqrt[n]{\left(\frac{\sqrt{5} + 1}{2}\right)^n} = \lim_{n \to \infty} \left(\frac{\sqrt{5} + 1}{2}\right) = \left(\frac{\sqrt{5} + 1}{2}\right) $$
+and so the radius of convergence $R \geq \frac{1}{\frac{\sqrt{5} + 1}{2}} = \frac{\sqrt{5} - 1}{2}$
+
+\item Define $f:B_{\frac{\sqrt{5} - 1}{2}}(0) \to \C$ by 
+$$ f(z) = \sum_{n=1}^{\infty} a_nz^n $$
+Prove that $(1 - z - z^2)f(z) = z$ for all $z \in B_{\frac{\sqrt{5}-1}{2}}(0)$.
+
+Solution: We have that 
+$$(1 - z - z^2)f(z) = \sum_{n=1}^{\infty} a_nz^n - \sum_{n=1}^{\infty}a_nz^{n+1} - \sum_{n=1}z^{n+2} $$
+$$ = a_1z + a_2z^2 - a_1z^2 + \sum_{n=3}a_nz^n - \sum_{n=3}a_{n-1}z^n - \sum_{n=3}^{\infty}a_{n-2}z^n $$
+$$ = z + \sum_{n=3}(a_n - a_{n-1} - a_{n-2})z^n = z + \sum_{n=3}^{\infty} 0(z^n) = z $$
+
+\end{enumerate}
+
+\item \begin{enumerate}[(a)]
+\item Show that the radius of convergence of the power series $\sum z^{2^n}$ is equal to $1$.
+
+Solution: Note that the series $\sum z^n$ is absolutely convergent with radius of convergence $1$. We then have if $|z|^{n} < 1$, $|z|^{2^{n}} < 1$, so that implies $\sum z^{2^{n}}$ is absolutely convergent (and thus convergent) for $z \in B_1(0)$. Now if $z = 1$, we have that $\sum 1^{2^{n}}$ does not converge, so the radius of convergence is not greater than $1$, and thus $R = 1$.
+
+\vspace{3mm}
+
+Define the function $f: B_1(0) \to \C$ by 
+$$ f(z) = \sum_{n=0}^{\infty}z^{2^n} $$
+
+
+
+\item Let $\delta > 0$. Prove that $f$ is not bounded on $B_{\delta}(1) \cap B_1(0)$.
+
+Solution: Pick an arbitrary $k \in N$; by continuity we have that there exists $\delta' \in \R$ such that if $|z-1| < \delta'$,  $z^{2^{k}} > 1 - \frac{1}{k}$. Note that if $m < k$, then $z^{2^{m}} > z^{2^k} > 1 - \frac{1}{k}$. Take $z \in B_{\delta}(1) \cap B_{\delta'}(1) \cap B_1(0)$, then
+$$ f(z) = \sum_{n=0}^{\infty} z^{2^n} = \sum_{n=0}^{k} z^{2^n} + \sum_{n=k+1}^{\infty} z^{2^n} > \sum_{n=0}^{k} (1 - \frac{1}{k}) = k - \frac{1}{k} $$
+Since the choice of $k$ was arbitrary, we have that $f$ is unbounded.
+
+\vspace{3mm}
+
+\item Prove that $f(z) = z + f(z^2)$ for all $z \in B_1(0)$
+
+Solution: Note that since $z^{2^n} = (z^2)^{2^{n-1}}$ and if $z \in B_1(0)$, $z^2 \in B_1(0)$, we have that 
+$$ f(z) = z + \sum_{n=1}^{\infty}z^{2^n} = z + \sum_{n=1}(z^2)^{2^{n-1}} = z + \sum_{n=0}^{\infty}(z^2)^{2^n} = z + f(z^2) $$
+
+\item Let $a \in \C$ with $|a| = 1$. Suppose that there exists a $\delta > 0$ such that $f$ is bounded on the set $B_{\delta}(a) \cap B_1(0)$. Prove that there exists an $\epsilon > 0$ such that $f$ is bounded on $B_{\epsilon}(a^2)\cap B_1(0) $
+
+Solution: By the previous part, it is sufficient to show that if for all $z$ in the ball of radius $\epsilon$ around $a^2$, we can find a square root that lies within $B_{\delta}(a)$ we are done. WLOG suppose $\delta$ is small enough such that $B_{\delta}(a)$ is one quadrant (if not, just make $\delta$ smaller). Suppose this region is contained in the sector of the region swept out by the radius with angles $(\theta - \alpha, \theta+\alpha)$ where $e^{i\theta} = a$ (ie this is the region between the two radii at the angles). Note that this sector is also within the same quadrant. Then we have that the equivalent region around $a^2$ is contained within $(2\theta - \alpha, 2\theta + \alpha)$ ($a^2 = e^{i2\theta}$, can be verified by basic plane geometry). If $z \in B_{\delta}(a^2)$, consider its square root $z'$ "near" $B_{\delta}(a)$. If it has angle $2\theta + \beta$ with $\beta < \alpha$, then $z'$ will have angle $\theta + \beta/2$ and so $z'$ will belong in the sector. Thus we have that 
+$$ |z' + a| = |z'|^2 + |a|^2 + 2\re(a\bar{z}) $$
+Since $a$ and $z'$ are in the same quadrant, we have that $\re(a\bar{z'}) = 2(\re(z')\re(a) + \im(z')\im(a)) > 0$, and so we have that $|z' + a| > 1$. Thus we get that 
+$$\delta >  |z - a^2| = |z' - a||z' + a| > |z' - a| $$
+and so $z' \in B_{\delta}(a)$, as desired, and $f(z') = z' + f(z)$, giving that $f(z)$ is bounded.
+
+\vspace{3mm}
+
+\item Let $a \in \C$, $k \in \mathbb{N}_0$ and $\delta > 0$. Suppose that $a^{2^k} = 1$. Prove that $f$ is not bounded on $B_{\delta}(a) \cap B_{1}(0)$.
+
+Solution: Note that 
+$$ |f(z)| = | \sum_{n=0}^{\infty} z^{2^n}| > |\sum_{n=k}^{\infty} z^{2^n}| - |\sum_{n=0}^{k-1}z^{2^n}| > |\sum_{n=k}^{\infty} z^{2^n}| - \sum_{n=0}^{k-1}|z^{2^n}|$$
+$$ > |\sum_{n=k}^{\infty} z^{2^n}| - k $$
+Thus if we show that the left expression is unbounded, we are done. Now suppose $a = e^{i\theta}$. Then we have that $a^{2^i} = 1$ for all $i > k$, since $a^{2^{i+1}} = (a^{2^i})^2$. Pick $z = re^{i\theta}$ and we have that $z^{2^{i}} = r^{2^i}$ for all $i > k$. Arbitrarily pick $m \in \mathbb{N}$ and by continuity there exists $\delta'$ such that $1 - \delta' < r < 1$ implies $r^{2^{k+m}} > 1 - \frac{1}{m}$ (and note that $|a - re^{i\theta}| = 1 - r < \delta'$). We also have that $r^{2^{k+j}} > r^{2^{k+m}} > 1 - \frac{1}{m}$ for $j < m$. Thus pick $r \in (\max(1 - \delta, 1 - \delta'), 1)$ and we have that 
+$$ |\sum_{n=k}^{\infty} z^{2^n}| - k  = \sum_{n = k}^{\infty} r^{2^n} - k > \sum_{n = k}^{k+m} (1 - \frac{1}{m}) - k = m - \frac{1}{m} - k $$
+and since the choice of $m$ was arbitrary, we have that $f$ is unbounded on $B_{\delta}(a)$.
+
+\item Let $a \in \C$ and $\delta > 0$. Suppose that $|a| = 1$. Prove that $f$ is not bounded on $B_{\delta}(a) \cap B_1(0)$
+
+Solution: Note that the set of numbers of the form $\pi * \frac{z}{2^k}$ where $z, k$ are integers are dense in the real numbers. Suppose we have a real $r$ and we want to find a number within $\epsilon$ of it. Then pick $k$ large enough such that $\frac{2^k}{\pi} > 1$. Thus we have that there exists an integer $z \in (\frac{2^k}{\pi}(r -\epsilon), \frac{2^k }{\pi}(r + \epsilon))$, and so we have our number $\pi * \frac{z}{2^k}$. 
+
+We have that 
+$$ |e^{i\theta} - e^{i\theta'}| \leq |\cos \theta - \cos \theta'| + |\sin \theta - \sin \theta'| $$
+By continuity of $\cos$ and $\sin$, pick $\epsilon$ such that $|\theta - \theta'| < \epsilon$ implies that $|\cos \theta - \cos \theta'|,|\sin \theta - \sin \theta'| < \frac{\delta}{4}$, so $|e^{i\theta} - e^{i\theta'}|  < \frac{\delta}{2}$.
+
+Now note that if $b = e^{i\theta}$ where $\theta = 2\pi \frac{z}{2^k}$, then $b^{2^j} = 1$ for all $j \geq k$, and since $2^k > k$, $z^{2^k} = 1$. Let $a = e^{i\theta}$. By denseness, we have that there exists $m$ such that $\theta' = 2\pi \frac{m}{2^k}$ is within $\epsilon$ of $\theta$. Define $w = e^{i\theta'}$, and by the earlier parts we have that $|w - a| < \frac{\delta}{2}$, and $w^{2^k} = 1$. Therefore by part (d) 
+$$\sum_{n=0}^{\infty} z^{2^n} $$
+is unbounded for $z \in B_{\frac{\delta}{2}}(w) \cap B_1(0)$. We can also verify that $B_{\frac{\delta}{2}}(w) \subset B_{\delta}(a)$: let $z \in B_{\frac{\delta}{2}}(w)$, then we have that $|z - w| < \frac{\delta}{2}$, $|w - a| < \frac{\delta}{2}$, so we get that $|z - a| < \delta$. Thus we have that $f$ is unbounded on $B_{\delta(a)} \cap B_1(0)$, proving the desired.
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
