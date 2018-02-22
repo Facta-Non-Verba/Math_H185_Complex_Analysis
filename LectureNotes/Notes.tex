@@ -892,5 +892,51 @@ gas a removable singularity at $a$.
 \end{enumerate}
 \end{theorem}
 
+Proof: Clearly only one at a time is possible. Suppose III is not the case. That means there exists $w \in \C$, $r > 0$, and $\mu > 0$ such that $B_r(a) \subset U$, and we have that $|f(z)-w| \geq \mu$ for all $z \in B_r(a) - \{ a \}$. The idea is that $\C$ contains a ball centered at $w$ that doesn't contain an element of the image of $f|_{B_r(a) - \{ a\}}$. Define $g : B_r(a) - \{ a \} \to \C$ as $z \mapsto \frac{1}{f(z) - w}$. $g$ is holomorphic on its domain and bounded, so Riemann's Theorem implies that $a$ is a removable singularity of $g$. Introduce $h: B_r(a) \to \C$ such that $h$ is equal to $g$ on $B_r(a) - \{ a \}$ and that $h$ is holomorphic. We have two cases: the first is that $h(a) \neq  0$, then $f$ is bounded in the neighborhood of $a$ and so $f$ has removable singularity at $a$ which is case I. Suppose $h(a) = 0$. Then $h$ has a zero at $a$ of finite order, so there exists $m \in \mathbb{N}$ and function $k: B_r(a) \to \C$ holomorphic (and nonzero at $a$) such that 
+$$ h(z) = (z - a)^mk(z) $$
+We can assume $k \neq 0$ on $B_r(a)$ (just restrict it so that it happens). Thus we have that 
+$$ f(z) = w + \frac{1}{(z-a)^m} \frac{1}{k(z)} $$
+for all $z \in B_r(a) - \{ a\}$. Since $\frac{1}{k(z)}$ is holomorphic, we can take the power series representation, $\sum_{n} \alpha_n(z-a)^n$ where $\alpha_0 \neq 0$, and we get that 
+$$ f(z) = w + \frac{1}{(z-a)^m}\sum_n \alpha_n (z-a)^n = w + \sum_{n=0}^{\infty}\alpha_n (z-a)^{n-m} $$
+as desired in case II, with $c_n = \alpha_{m-n}$.
+
+\begin{definition}
+In case III of the previous theorem, $a$ is said to be an essential singularity. 
+
+In case II, $f$ is said to have a pole of order $m$ at $a$. If $m = 1$, then we say that the pole is simple.
+\end{definition}
+
+\begin{corollary}
+Let $U$ be open, $a \in U$, with $f:U - \{ a\} \to \C$ holomorphic. Let $m \in \mathbb{N}$. Then $f$ has a pole of order $m$ at $a$ if and only if 
+$$ \lim_{z \to a} (z-a)^m f(z) $$
+exists and is non-zero. 
+\end{corollary}
+
+\subsection{ The Homotopy Theorem}
+
+\begin{definition}
+Let $U \subset \C$ be open, $\gamma_0:[a_0,b_0] \to \C$, $\gamma_1:[a_1,b_1] \to \C$ be two closed curves. Then $\gamma_0$ is $U$-homotopic to $\gamma_1$ if there exists continuous map $\Phi : [0,1]\times[0,1]\to U$ such that 
+$$ \Phi(t, 0) = \gamma_0(a_0 + t(b_0 - a_0)) $$
+$$\Phi(t, 1) = \gamma_1(a_1 + t(b_1 - a_1)) $$
+$$\Phi(0, s) = \Phi(1, s), \forall s \in [0,1]$$
+\end{definition}
+
+We say that $\gamma_0$ is null homotopic if it is $U$-homotopic to a constant curve. 
+
+Note that $U$-homotopy is an equivalence relation on curves in $U$.
+
+\begin{lemma}
+Let $K \subset \C$ be sequentially compact. 
+\begin{enumerate}[(I)]
+\item Let $U \subset \C$ be open and $K \subset U$, then $\exists \epsilon > 0$ such that $\forall z \in K$ and $B_{\epsilon}(z) \subset U$
+\item Let $f: K \to \C$ be continuous and $\epsilon > 0$. Then there exists $\delta > 0$ such that $\forall z,w \in K$ with $|z - w| < \delta$ it follows that $|f(z) - f(w)| < \epsilon$
+\end{enumerate}
+\end{lemma}
+
+Proof: (I) Suppose not. Then for all $n \in \mathbb{N}$ there exists $z_n \in K$ such that $B_{\frac{1}{n}}(z_n)$ is not a subset of $U$. $K$ is compact implies that $z_n$ has a convergent subsequence inside $K$, $z_{n_k} \to z \in K$. Because $z \in K \subset U$, there exists $N \in \mathbb{N}$ such that $B_{\frac{2}{N}}(z) \subset U$. There also exists $k \geq N$ such that 
+$$ |z_{n_k} - z| < \frac{1}{N} $$
+Then for all $w \in B_{\frac{1}{n_k}} (z_{n_k})$ one has 
+$$ |w -z | \leq |w - z_{n_k}| + |z_{n_k} - z| < \frac{1}{n_k} + \frac{1}{N} \leq \frac{2}{N} $$ 
+Thus $B_{\frac{1}{n_k}}(z_{n_k}) \subset U$, a contradiction.
 
 \end{document}
