@@ -939,4 +939,46 @@ Then for all $w \in B_{\frac{1}{n_k}} (z_{n_k})$ one has
 $$ |w -z | \leq |w - z_{n_k}| + |z_{n_k} - z| < \frac{1}{n_k} + \frac{1}{N} \leq \frac{2}{N} $$ 
 Thus $B_{\frac{1}{n_k}}(z_{n_k}) \subset U$, a contradiction.
 
+\begin{theorem}
+(Homotopy Theorem): Let $U$ be open, $f: U \to \C$ holomorphic. Let $\gamma_0, \gamma_1$ be two closed curves in $U$ which are $U$-homotopic. Then
+$$ \int_{\gamma_0} f(z)dz = \int_{\gamma_1} f(z)dz $$
+If $\gamma_0$ is null-homotopic, then $\int_{\gamma_0}f(z)dz = 0$. 
+\end{theorem}
+
+Proof: Without loss of generality let $\gamma_0, \gamma_1 : [0,1] \to \C$. Let $\Phi$ be a homotopy of $\gamma_0$ and $\gamma_1$. By Theorem 3.17, there exists $\epsilon > 0$ and $N \in \mathbb{N}$ such that 
+$$ B_{\epsilon}(\Phi(t, s)) \subset U, \hspace{3mm} \forall (t,s) \in [0,1] \times [0,1] $$ 
+(because continuous image of compact is compact) and we have that 
+$$ |\Phi(t_1, s_1) - \Phi(t_2, s_2)| < \epsilon \hspace{3mm} \forall (t_i, s_i) \in [0,1]^2 $$
+with $|(t_1, s_1) - (t_2, s_2)| \leq \frac{2}{N}$. For all $m,n \in \mathbb{Z}_N$, and let $z_{n,m} = \Phi(\frac{n}{N}, \frac{m}{N})$. Then we have that 
+$$z_{n-1, m-1}, z_{n,m-1}, z_{n-1,m}, z_{n,m} \in B_{\epsilon}(z_{n,m})$$
+Note the counterclockwise curve formed by the 4 points listed above is within the convex set of the ball, so by Cauchy's theorem the integral around it is $0$. Thus starting from the bottom left corner, the integral right and up is integral to the path integral up and right. (and some more stuff like adding up things)
+
+\begin{definition}
+An open set $U \subset \C$ is simply connected if every closed curve in $U$ is null-homotopic in $U$. 
+\end{definition}
+
+Remark: The ball is simply connected. Any open convex set is simply connected. $B_1(0) \cup B_1(37)$ is simply connected. 
+
+\begin{theorem}
+Let $U$ be open, simply connected, $f: U \to \C$ holomorphic. If $\gamma$ is closed, then $\int_{\gamma}f(z)dz = 0$
+\end{theorem}
+
+\begin{corollary}
+Let $U$ be open, connected and simply connected, with $f: U \to \C$ holomorphic. Then there exists $F: U \to \C$ holomorphic such that $F' = f$. If $p \in U$ fixed, then $F(z) = \int_\gamma f(w)dw$ where $\gamma(0) = p$, $\gamma(1) = z$.
+\end{corollary}
+
+Proof: Fix $p$, for z choose $\gamma$ piecewise smooth from $p$ to $z$ (by connectedness). Then $F(z) = \int_{\gamma}f(z)dz$ is independent of the choice of $\gamma$ by Theorem 3.18. If $a \in U$, $r > 0$ such that $B_r(a) \subset U$. Then 
+$$ F(z) = F(a) + \int_{[a,z]} f(z)dz $$
+Then Corollary 2.24 gives $F$ holomorphic on $B_r(a)$. 
+
+\begin{corollary}
+Let $U$ be open, connected, and simply connected, with $f: U \to \C$ holomorphic. Suppose $f(z) \neq 0$ for all $z \in U$. Then there exists holomorphic function $g: U \to \C$ such that $e^g = f$
+\end{corollary}
+
+Proof: Consider $\frac{f'}{f}$ which is holomorphic. Then there exists $F: U \to \C$ holomorphic such that $F' = \frac{f'}{f}$. Then we have that 
+$$ (fe^{-F})' = f'e^{-F} - fF'e^{-F} = 0 $$
+so $fe^{-F}$ is constant since $U$ is connected. Then fix $a \in U$ and then there exists $w \in \C$ such that $e^w = f(a)$. Establish for $z \in U$ 
+$$ f(z) = f(z)e^{-F(z)}e^{F(z)} = f(a)e^{-F(a)}e^{F(z)} = e^{w - F(a) + F(z)} $$
+as desired.
+
 \end{document}
