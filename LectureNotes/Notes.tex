@@ -981,4 +981,38 @@ so $fe^{-F}$ is constant since $U$ is connected. Then fix $a \in U$ and then the
 $$ f(z) = f(z)e^{-F(z)}e^{F(z)} = f(a)e^{-F(a)}e^{F(z)} = e^{w - F(a) + F(z)} $$
 as desired.
 
+\begin{corollary}
+Let $U$ be open, $f: U \to \C$ holomorphic, $\gamma_0, \gamma_1:[0,1] \to U$ be piecewise smooth curves such that $\gamma_0(0) = \gamma_1(0)$ and $\gamma_0(1) = \gamma_1(1)$. If we have $\Phi$ continuous such that $\Phi(0, s) = \gamma_0(s)$ for all $s$ and $\Phi(1,s) = \gamma_1(s)$ for all $s$, then $\int_{\gamma_0} f(z)dz = \int_{\gamma_1} f(z)dz$.
+\end{corollary}
+
+Proof: Modify $\Phi$ to create $\tilde{\Phi}$ in the setting of Theorem 3.18. 
+
+\begin{remark}
+There does not exist function $f: \C - \{0\} \to \C$ holomorphic such that $f' = \frac{1}{z}$.
+\end{remark}
+
+Proof: Let $\gamma = \Gamma_1(0)$. Then we have that $\int_{\gamma} \frac{1}{z}dz = 2\pi i$, but if the statement was true, by Cauchy's Theorem we have $\int_{\gamma} \frac{1}{z} dz = 0$.
+
+\begin{definition}
+For all $x \in (0, \infty)$ we have that $\log x = \int_1^x \frac{1}{t}dt$. Thus we define 
+$$ \log : \C - (-\infty, 0] \to \C, \hspace{5mm} z \mapsto \int_{[1,z]} \frac{1}{w} dw $$
+\end{definition}
+
+\begin{proposition}
+\begin{enumerate}[1.]
+\item $\log$ is holomorphic, $\log'(z) = \frac{1}{z} $
+\item $e^{\log z} = z $
+\item We have that 
+$$ \log z = \log |z| + 2i \text{arctan} \frac{\Im(z)}{\Re(z) + |z|} $$
+In addition, $\Im(\log z) \in (- \pi, \pi)$.
+\item $\log$ is a bijection onto $\{ w \in \C : |\Im(w)| < \pi\}$
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}
+Let $a \in \C - (-\infty, 0], z \in \C$ and define $a^z = e^{z \log a}$.
+\end{definition}
+
+Note that $(ab)^z \neq a^z b^z$ with this definition. 
+
 \end{document}
