@@ -20,6 +20,7 @@
 \newcommand{\im}[0]{\text{Im}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Ind}{\text{Ind}}
+\newcommand{\Z}{\mathbb{Z}}
 
 \title{Math H185 Lecture Notes}
 \author{Eric Xia}
@@ -993,6 +994,8 @@ There does not exist function $f: \C - \{0\} \to \C$ holomorphic such that $f' =
 
 Proof: Let $\gamma = \Gamma_1(0)$. Then we have that $\int_{\gamma} \frac{1}{z}dz = 2\pi i$, but if the statement was true, by Cauchy's Theorem we have $\int_{\gamma} \frac{1}{z} dz = 0$.
 
+\subsection{The Complex Logarithm Function}
+
 \begin{definition}
 For all $x \in (0, \infty)$ we have that $\log x = \int_1^x \frac{1}{t}dt$. Thus we define 
 $$ \log : \C - (-\infty, 0] \to \C, \hspace{5mm} z \mapsto \int_{[1,z]} \frac{1}{w} dw $$
@@ -1009,10 +1012,35 @@ In addition, $\Im(\log z) \in (- \pi, \pi)$.
 \end{enumerate}
 \end{proposition}
 
+\begin{lemma}
+Let $a \in \C - (-\infty, 0]$ and $n \in \mathbb{N}$. Then $a^n = e^{n\log a}$ and $a^{-n} = e^{-n \log a}$.
+\end{lemma}
+
 \begin{definition}
 Let $a \in \C - (-\infty, 0], z \in \C$ and define $a^z = e^{z \log a}$.
 \end{definition}
 
 Note that $(ab)^z \neq a^z b^z$ with this definition.
+
+\begin{example}
+Any example that messes around with the branch cut illustrates the above.
+\end{example}
+
+\begin{example}
+Another example that demonstrates $(a^b)^c \neq a^{bc}$.
+\end{example}
+
+\subsection{Laurent Series}
+
+\begin{definition} 
+If $0 \leq R_1 < R_2 \leq \infty$, and $a \in \C$. Then define the \textbf{annulus} to be 
+$$ A(a, R_1, R_2) = \{ z \in \C | R_1 < |z - a| < R_2 \} $$
+\end{definition}
+
+\begin{definition}
+Let $z_k \in \C$, $k \in \mathbb{Z}$. We say that the series $\sum z_k$ is convergent if both the sequences $N \mapsto \sum_{k=1}^{\infty} z_k$ and $N \mapsto \sum_{k=1}^{\infty} z_{-k}$ are convergent. In that case we write 
+$$ \sum_{k = - \infty}^\infty z_k = \sum_{k=0}^\infty z_k + \sum_{k=1}^{\infty} z_{-k} $$
+If $a \in \C$, then a Laurent series about $a$ is a series of the form $\sum \alpha_k (z-a)^k$ with $\alpha_k \in \C$ for all $k \in \Z$. The $\alpha_k$ are called the coefficients of the Laurent series. 
+\end{definition}
 
 \end{document}
