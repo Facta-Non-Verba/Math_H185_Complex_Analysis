@@ -21,6 +21,8 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Ind}{\text{Ind}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Res}{\text{Res}}
+\newcommand{\sla}{\char`\\}
 
 \title{Math H185 Lecture Notes}
 \author{Eric Xia}
@@ -1094,6 +1096,37 @@ Let $f:A(a, 0, R_2) \to \C$, and $f(z) = \sum_{k=-\infty}^\infty \alpha_k(z-a)^k
 Let $a \in \C$, $r > 0$, $f: B_r(a) - \{ a \} \to \C$ holomorphic. Suppose $f$ has pole of order $m$ at $a$. Then 
 $$ \text{Res}_a(f) = \frac{1}{(m-1)!} \lim_{z \to a} g^{(m-1)}(z) $$
 where $g(z) = (z - a)^m f(z) $
+\end{lemma}
+
+\subsection{The Residue Theorem}
+Let $U \subset \C$ be open, $a \in U$ and $f: U - \{ a \} \to \C$ holomorphic. Let $r > 0$ such that $B_r(a) \subset U$. Then $f$ has a Laurent series $\sum \alpha_k (z-a)^k$ about $a$ on the annulus $B_r(a) - \{ a \}$. Let $h$ be the principal part of $f$ about $a$. Let $\gamma$ be a piecewise smooth closed curve in $U - \{ a \}$ which is null-homotopic in $U$. Then the function $z \mapsto \sum_{k=2}^\infty \alpha_{-k}(z-a)^{-k}$ is the derivative of the holomorphic function $z\mapsto \sum_{k=2}^\infty \frac{\alpha_{-k}}{1 - k} (z-a)^{-k+1}$ on $\C - \{ a \}$. So 
+$$ \int_{\gamma} \sum_{k=2}^\infty \alpha_{-k}(z-a)^{-k} dz = 0 $$
+by Proposition 2.13. Hence 
+$$ \frac{1}{2\pi i} \int_{\gamma} h(z)dz = \frac{1}{2\pi i} \frac{\alpha_{-1}}{z-a}dz = (\text{Res}_a f) * \Ind_\gamma(a) $$
+
+\begin{theorem}
+Let $U \subset \C$ be open, and $A \subset U$. Suppose $U - A$ is open. Let $f: U \sla A \to \C$ be a holomorphic function. Suppose for all $a \in A$ the function $f$ has an isolated singularity at $a$. Let $\gamma$ be a closed piecewise smooth curve in $U \sla A$ which is null-homotopic in $U$. Then the set 
+$$ \{ a \in A : \Ind_\gamma (a) \neq 0 \} $$
+is finite. Write 
+$$ \{ a \in A : \Ind_\gamma (a) \neq 0 \} = \{ a_1, ..., a_N\} $$
+with $N \in \mathbb{N}$ chosen minimal. Then 
+$$ \frac{1}{2\pi i} \int_{\gamma} f(z)dz = \sum_{k=1}^N (\Res_{a_k} f) \Ind_\gamma(a_k) $$
+\end{theorem}
+
+Proof: Let $\Phi$ be a homotopy from $\gamma$ to a constant curve in $U$. If $a \in A \sla \Phi([0, 1] \times [0,1])$ then $\Phi$ is a homotopy from $\gamma$ to a constant curve in $\C \sla \{ a \}$. Hence $\Ind_{\gamma}(a) = \frac{1}{2\pi i} \int_\gamma \frac{1}{z-a} dz = 0$ by the homotopy theorem. So
+$$\{ a \in A: \Ind_{\gamma}(a) \neq 0 \} \subset A \cap \Phi([0, 1] \times [0, 1]) $$
+Note that $\Phi([0,1] \times [0,1])$ is sequentially compact. Therefiore if the set $ A \cap \Phi([0, 1] \times [0, 1])$ is infinite, there exists a convergent sequene of different elements of $A$. This sequence converges to a point $p \in \Phi([0,1] \times [0,1]) \subset U$. But there is an $r > 0$ such that $f$ is holomorphic on $B_r(p) \sla \{ p\}$, a contradiction. This establishes the first part of the theorem.
+
+Let $V = (U \sla A) \cup \{a_1, ..., a_N\}$. Then $V$ is open and $\gamma$ is null-homotopic in $V$ via $\Phi$. For all $k \in \{ 1 ,..., N\}$ let $h_k$ be the principal part of $f$ at $b_k$. Then $f - \sum_{k=1}^N h_k$ is holomorphic on $V \sla \{a_1, ..., a_N\}$ with removable singularities at $a_1, .., a_N$ by Proposition 3.35(IV). Therefore 
+$$ \int_{\gamma} (f - \sum_{k=1}^N h_k(z) dz = 0 $$ 
+by the homotopy theorem. Hence 
+$$ \frac{1}{2\pi i} \int_\gamma f(z)dz = \sum_{k=1}^N \frac{1}{2\pi i} \int_\gamma h_k(z)dz = \sum_{k=1}^N (\Res_{a_k} f) \Ind_\gamma(a_k) $$
+
+\begin{lemma}
+Joran's Lemma: Let $f: \{z \in \C: \Im z \geq 0 \} \to \C$ be a continuous function and suppose that 
+$$ \lim_{R \to \infty} \sup \{ |f(Re^{it})| : t \in [0, \pi]\} = 0 $$
+For all $R > 0$ define $\gamma_R : [0, \pi] \to \C$ by $\gamma_R(t) = Re^{it}$. Fix $m > 0$. Then 
+$$ lim_{R \to \infty} \int_{\gamma_R} e^{imz} f(z) dz = 0 $$
 \end{lemma}
 
 \end{document}
