@@ -1043,4 +1043,57 @@ $$ \sum_{k = - \infty}^\infty z_k = \sum_{k=0}^\infty z_k + \sum_{k=1}^{\infty} 
 If $a \in \C$, then a Laurent series about $a$ is a series of the form $\sum \alpha_k (z-a)^k$ with $\alpha_k \in \C$ for all $k \in \Z$. The $\alpha_k$ are called the coefficients of the Laurent series. 
 \end{definition}
 
+\begin{theorem}
+Let $0 \leq R_1 < R_2 \leq \infty$, and $a \in \C$. Suppose $f: A(a, R_1, R_2) \to \C$ holomorphic, and $r \in (R_1, R_2)$ for all $k \in \Z$ define 
+$$ \alpha_k = \frac{1}{2\pi i} \int_{\Gamma_r(a)} \frac{f(w)}{(w-a)^{k+1}}dw $$
+Then $\alpha_k$ is independent of $r$, the series $\sum \alpha_k (z - a)^k$ is convergent and 
+$$ f(z) = \sum_{k=-\infty}^\infty \alpha_k (z - a)^k $$
+\end{theorem}
+
+Proof: WLOG let $a = 0$. The independence of $\alpha_k$ is direct from the homotopy theorem. Let $z \in A(0, R_1, R_2)$ and choose $r_1$, $r_2$ such that $R_1 < r_1 < |z| < r_2 < R_2$. Define $g:A(0, R_1, R_2) \to \C$ by 
+$$ g(w) = \begin{cases} \frac{f(w) - f(z)}{w- z} & w \neq z \\ f'(z) & w = z \end{cases} $$
+By Riemann's Theorem (Theorem 3.12) we have that $g$ is bounded near $z$, and we get that $g$ is holomorphic. By the homotopy theorem, 
+$$ \int_{\Gamma_{r_1}(0)} g(w)dw = \int_{\Gamma_{r_2}(0)} g(w)dw $$
+
+Note that since $z$ does not lie on both of the curves, we can expand the integrand without fear to get the expression
+$$ \int_{\Gamma_{r_2}(0)} \frac{f(w)}{w-z} dw - \int_{\Gamma_{r_1}(0)} \frac{f(w)}{w - z} dw = f(z) \left( \int_{\Gamma_{r_2}(0)} \frac{1}{w-z} dw - \int_{\Gamma_{r_2}(0)} \frac{1}{w-z}dw \right) $$
+$$ = f(z) * 2\pi i $$
+
+We have $r_1 < |z|$ so for $w \in \partial B_{r_1}(0)$ we define 
+$$ h_n(w) = \left(\frac{w}{z}\right)^n, \hspace{3mm} \forall n \in \mathbb{N} $$ 
+By Weierstrass's M-test, we have $\sum h_n$ is uniformly convergent. We also have that 
+$$ -\frac{1}{2\pi i} \int_{\Gamma_{r_1}(0)} \frac{f(w)}{w-z}dw = \frac{1}{2\pi i * z} \int_{\Gamma_{r_1}(0)} \frac{f(w)}{1 - \frac{w}{z}} dw $$
+$$ = \frac{1}{2\pi i} \frac{1}{z} \int_{\Gamma_{r_1}(0)} f(w) * \sum_{n=0}^{\infty} \left(\frac{w}{z}\right)^n dw  = \sum_{n=0}^\infty \frac{1}{2\pi i} \frac{1}{z} \int_{\Gamma_{r_1}(0)} f(w) \left(\frac{w}{z}\right)^n dw $$
+$$ = \sum_{k=1}^\infty \alpha_{-k} z^{-k} $$
+By Theorem 2.15, 
+$$ \frac{1}{2\pi i} \int_{\Gamma_{r_2}(0)} \frac{f(w)}{w-z} dw = \sum_{n=0}^\infty \alpha_n z^n $$
+proving the desired.
+
+\begin{lemma}
+For all $k \in \Z$, $\alpha_k \in \C$, and let $0 \leq R_1 < R_2 \leq \infty$. Suppose $\forall z \in A(a, R_1, R_2)$ the series $\sum \alpha_k (z - a)^k$ converges. Define $f: A(a, R_1, R_2) \to \C$ by $f(z) = \sum_{k=-\infty}^\infty \alpha_k(z-a)^k$. Then $f$ is holomorphic and $\forall n \in \Z$, $r \in (R_1, R_2)$ we have 
+$$ \alpha_n = \frac{1}{2\pi i} \int_{\Gamma_r(a)} \frac{f(w)}{(w-z)^{n+1}} dw $$
+\end{lemma}
+
+\begin{definition}
+From above $\sum \alpha_k (z-a)^k$ is the Laurent series of $f$. Define $h: A(a, R_1, R_2)$ by $h(z) = \sum_{k=-\infty}^{-1} \alpha_k (z - a)^k$ called the principal part of $f$ about $a$. In the case that $R_1 = 0$ we say that $alpha_{-1}$ is the residue of $f$ at $a$.
+We write 
+$$ \alpha_{-1} = \text{Res}_\alpha(f) $$
+\end{definition}
+
+\begin{proposition}
+Let $f:A(a, 0, R_2) \to \C$, and $f(z) = \sum_{k=-\infty}^\infty \alpha_k(z-a)^k$. Let $m \in \mathbb{N}$. Then one has the following:
+\begin{enumerate}[(a)]
+\item $a$ is a removable singularity if and only if $\alpha_k = 0$ for all negative $k$.
+\item $a$ is an isolated pole $\alpha_k = 0$ if and only if for all $k \in \Z$ with $k < -m$ we have that $\alpha_{-m} \neq 0$.
+\item $a$ is an essential singularity of $f$ if and only if the set $\{ \alpha_k | k \in \mathbb{N} \}$ is of infinite size. 
+\item If $h$ is the principal part, then $f - h$ has a removable singularity at $a$.
+\end{enumerate}
+\end{proposition}
+
+\begin{lemma}
+Let $a \in \C$, $r > 0$, $f: B_r(a) - \{ a \} \to \C$ holomorphic. Suppose $f$ has pole of order $m$ at $a$. Then 
+$$ \text{Res}_a(f) = \frac{1}{(m-1)!} \lim_{z \to a} g^{(m-1)}(z) $$
+where $g(z) = (z - a)^m f(z) $
+\end{lemma}
+
 \end{document}
