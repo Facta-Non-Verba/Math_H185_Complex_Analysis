@@ -1126,7 +1126,16 @@ $$ \frac{1}{2\pi i} \int_\gamma f(z)dz = \sum_{k=1}^N \frac{1}{2\pi i} \int_\gam
 Joran's Lemma: Let $f: \{z \in \C: \Im z \geq 0 \} \to \C$ be a continuous function and suppose that 
 $$ \lim_{R \to \infty} \sup \{ |f(Re^{it})| : t \in [0, \pi]\} = 0 $$
 For all $R > 0$ define $\gamma_R : [0, \pi] \to \C$ by $\gamma_R(t) = Re^{it}$. Fix $m > 0$. Then 
-$$ lim_{R \to \infty} \int_{\gamma_R} e^{imz} f(z) dz = 0 $$
+$$ \lim_{R \to \infty} \int_{\gamma_R} e^{imz} f(z) dz = 0 $$
 \end{lemma}
+
+\begin{example}
+Note that using the residue theorem we can calculate $\int_0^\infty \frac{\sin x}{x} dx$ by considering the integral of $f(z) = \frac{e^{iz}}{z}$ around the closed curve of the half circle with radius $R$ and taking the limit as $R \to \infty$. 
+\end{example}
+
+\begin{example}
+We can also use the residue theorem to verify that 
+$$ \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} $$
+\end{example}
 
 \end{document}
