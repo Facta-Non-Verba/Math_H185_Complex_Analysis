@@ -21,6 +21,7 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Ind}{\text{Ind}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\Res}{\text{Res}}
 \newcommand{\sla}{\char`\\}
 
@@ -1174,5 +1175,44 @@ $A \subset \C$ is \textbf{discrete} if $\exists r > 0$ such that for all $z \in 
 \begin{corollary} 
 Let $U$ be open and connected, $\gamma$ simple and null-homotopic in $U$. Suppose $f: U \to \C$ holomorphic and take $b \in \C \setminus \gamma^*$. Let $U_1 = \{ a \in U | \Ind_\gamma(a) = 1\} \subset U$. Then $f-b$ has finitely many zeros in $U_1$, and with multiplicity equal to $\frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z) -b} dz$.
 \end{corollary}
+
+\begin{theorem}
+Rouche: Let $U$ be open, connected, $\gamma$ is simple and null-homotopic. Set $U_1 = \{ a \in \C \setminus \gamma^* | \Ind_\gamma(a) = 1\} \subset U$. Take $f, g: U \to \C$ holomorphic and suppose on $\gamma^*$ that $|g| < |f|$. Then let $N_h$ be the number of zeros counting multiplicity of a function $h$ on $U_1$. Then we have that 
+$$N_f = N_{f+g} $$
+\end{theorem}
+
+Proof: For $s \in [0,1]$, define $f_s = f + sg$. We have that $f_s$ is holomorphic. Suppose for the sake of contradiction, $f_s(z) = 0$ for all $z \in \gamma^*$. Then we have 
+$$ 0 = f(z) + sg(z) \implies f(z) = -sg(z) \implies |f(z)| \leq |g(z)| $$
+a contradiction. Thus $f_s$ is always non-vanishing on $\gamma^*$. Define $\varphi:[0,1] \to \Z, s\mapsto \frac{1}{2\pi i} \int_\gamma \frac{f'_s(z)}{f_s(z)} dz$. We have that $\varphi$ is continuous, and since it maps to the integers we have that it is constant. Thus $N_f = \varphi(0) = \varphi(1) = N_{f+g}$, as desired. 
+
+\begin{theorem}
+Let $U$ be open, connected and $f_1, f_2, ...:U\to \C$ holomorphic. Let $f:U\to\C$ be such that $\lim_{k\to\infty}f_k = f$ locally uniform. Suppose $f \neq 0$ and let $a\in U$, $m \in \N$. Then the following are equivalent
+\begin{enumerate}[(I)]
+\item $f$ has a zero at $a$ with multiplicity $m$
+\item $\exists r > 0$ with $B_r(a) \subset U$ such that $\forall s \in (0, r)$ there exists $N \in \N$ such that $\forall n \geq N$ the function $f_n$ has $m$ zeros in $B_s(a)$ counted with multiplicities 
+\end{enumerate}
+\end{theorem}
+
+Proof: Find $r>0$ such that $B_r(a) \subset U$, local uniform convergence is uniform convergence on $B_r(a)$, and $f(z) \neq 0$ for all $z \in B_r(a) \setminus \{ a\}$. Let $s \in (0, r)$ and $\varepsilon = \min_{z \in \partial B_s(a)} |f(z)| > 0$. There also exists $N \in \N$ such that $\forall n \geq N$, $|f_n(z) - f(z)| < \epsilon$ for all $z \in B_r(a)$. Thus we have on $\Gamma_s(a)^*$, $|f(z)| > |f_n(z) - f(z)|$, and so Rouche's Theorem gives us the forward direction.
+
+\begin{theorem}
+Hurwitz: Let $U$ be open, connected, $f_1, f_2, ...: U \to \C$ holomorphic and converge locally uniformly to $f$. If $f_k's$ don't have any zeroes, then either $f$ has no zeros, or $f = 0$. 
+\end{theorem}
+
+\begin{corollary}
+Let $f_1, f_2, ... : U \to \C$ be holomorphic, injective and converge locally uniformly to $f$. Then $f$ is constant or $f$ is injective.
+\end{corollary}
+
+Proof: Let $a \in U$. Then we have that $V =.U \setminus \{ a \}$ is open and connected. Set $g_n(z) = f_n(z) - f_n(a)$. Then $g_n$ converges locally uniformly to $f(z) - f(a)$ which we define to be $g(z)$. Since $g_n$ has no zero, then $g$ doesn't have zero (or is constant). Thus $f(z) \neq f(a)$ for all $z \in U \setminus \{ a \}$.
+
+\begin{theorem}
+Let $U$ be open, $f: U \to \C$ holomorphic, and nonconstnat. Then $f(U)$ is open.
+
+Precisely, let $a \in U$, $b = f(a)$. Suppose $f - b$ has a zero at $a$ of order $N$. Then there exists open $U_0, V_0$ such that $a \in U_0$, $b \in V_0$ with $f(U_0) = V_0$. Additionally, for all $w \in V_0 \setminus \{ b\}$ we have that $f(z) - w$ has precisely $N$ zeros on $U_0$ with multiplicity one.
+\end{theorem}
+
+Proof: $f$ is not constant so $f' \neq 0$ implying that we can't have a sequence of zeros converging in $U$ (otherwise $f$ would have a zero of infinite order). There exists $r > 0$ such that $B_{2r}(a) \subset U$ and for $z \neq a$, $z \in B_r(a)$ we have that $f(z) - b \neq 0$ and $f'(z) \neq 0$. By the argument principle with $\gamma = \Gamma_r(a)$ and $f-b$ gives that 
+$$ \Ind_{f\circ\gamma}(b) = N $$
+Let $V_0 = \{ w \in \C \setminus (f \circ \gamma ) | \Ind_{f\circ\gamma}(w) = N\}$. It is open because $\Ind_{f\circ\gamma}$ is continuous and takes integer values. Let $U_0 = B_r(a) \cap f^{-1}(V_0)$ which is open by continuity of $f$. We have that $f(U_0) \subset V_0$. Let $w in V_0 \setminus \{ b\}$, so $\Ind_{f\circ\gamma}(w) = N$. Argument principle implies that $f-w$ has $N$ zeros counted with multiplicities in $B_r(a)$. Let $z$ be one such zero. So $f(z) = w$, which implies $V_0 \subset f(U_0)$. Then $f'(z_0) \neq 0$ so $(f-w)'(z) \neq 0$ meaning that $f-w$ has a zero of order one at $z$.
 
 \end{document}
