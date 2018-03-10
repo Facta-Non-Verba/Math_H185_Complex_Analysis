@@ -1,0 +1,219 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+\newcommand{\re}[0]{\text{Re}}
+\newcommand{\im}[0]{\text{Im}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\Res}{\text{Res}}
+
+\title{Math H185 Homework 2}
+\author{Eric Xia}
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}[(1)]
+\item Let $f:U\to\C$ be a holomorphic function and $\gamma$ a simple closed curve that is null-homotopic in $U$. Let $z_0, ..., z_n$ be a collection of $n+1$ distinct points in the region enclosed by $\gamma$ (the set of points $U_1$ whose index is $1$). Let 
+$$ l_j(z) = \frac{\prod_{k \neq j} (z - z_k)}{\prod_{k\neq j}(z_j - z_k)}, \hspace{3mm} \omega(z) = \prod_{k=0}^n (z - z_j) $$
+
+\begin{enumerate}[(a)]
+\item Verify that $p(z) = \sum_{j=0}^n f(z_j)l_j(z)$ is the unique polynomial of degree at most $n$ satisfying $p(z_j) = f(z_j)$ for each $j= 0,...,n$.
+
+\vspace{2mm}
+
+Solution: Note that $l_j(z_i) = 0$ if $i \neq j$ and $l_j(z_j) = 1$. Thus $p(z_j) = f(z_j)$. Now suppose there were two polynomials $p$ and $q$ such that $q(z_j) = f(z_j) = p(z_j)$ for all $z_0, ..., z_n$. Then we have $p - q$ has $n+1$ zeroes, despite it being at degree $n$. Thus $p -q$ is identically zero (we can verify by induction, clearly true for $n = 0$ or $1$, then $p - q = (x - w)r(x)$, and $r(x)$ is degree $n-1$ and has $n$ zeros, thus is identically zero by induction hypothesis). Thus we have that $p(x) = q(x)$, verifying uniqueness.
+
+\item Prove the Hermite remainder formula 
+$$ f(z) - p(z) = \frac{1}{2\pi i} \int_\gamma \frac{\omega(z)}{\omega(t)} \frac{f(t)}{t-z} dt $$
+for all $z \in U_1$
+
+Solution: We can use the residue theorem to evaluate 
+$$ \frac{1}{2\pi i} \int_\gamma \frac{\omega(z)}{\omega(t)} \frac{f(t)}{t-z} dt $$ 
+There are a few cases to consider. First suppose that $z \in \{z_0, ..., z_n\}$, then we have that $\omega(z) = 0$, and so the integral is zero, and $f(z) = p(z)$ and $z_i$ so we are done. Now suppose that $z \notin \{z_0, ..., z_n\}$ and $\Ind_\gamma(z) = 1$. We ignore $\omega(z)$ for now since it is a constant and try and evaluate 
+$$ \frac{1}{2\pi i} \int_\gamma \frac{f(t)}{\omega(t)(t-z)} dt $$
+Note that for $t \notin \{z, z_0, ..., z_n\}$, the integrand is differentiable, so these points form poles. For now consider the pole $z_j$. It is a pole of order $1$ (unless $f(z_j) = 0$ which won't be a problem) because 
+$$\lim_{t \to z_j} (z - z_j) \frac{f(t)}{\omega(t)(t-z)} \neq 0$$
+because $f(z_j) \neq 0$ is holomorphic, thus continuous and $\frac{(t -z_j)}{\omega(t)}$ has a well-defined limit at $t = z_j$. So we have 
+$$ \Res_{z_j} \frac{f(t)}{\omega(t)(t-z)} = \lim_{t \to z_j} \frac{f(t)(t-z_j)}{\omega(t)(t-z)} = \frac{f(z_j)}{\prod_{k \neq j}(z_j - z_k) * (z_j - z)}$$
+which is still true even if $f(z_j) = 0$, and thus not causing an issue in the case where it is not a pole of order 1. Then $t = z$ is also a pole of order $1$ (again barring $f(z) = 0$) by similar reason to above and we have 
+$$ \Res_{z} \frac{f(t)}{\omega(t)(t-z)} = \lim_{t \to z} \frac{f(t)(t - z)}{\omega(t)(t-z)} = \frac{f(z)}{\omega(z)}$$
+Thus we have that 
+$$ \frac{1}{2\pi i} \int_\gamma \frac{1}{\omega(t)} \frac{f(t)}{t-z} dt = \sum_{j=0}^n  \frac{f(z_j)}{\prod_{k \neq j}(z_j - z_k) * (z_j - z)} + \frac{f(z)}{\omega(z)}$$
+Multiplying by $\omega(z)$ we get 
+$$ \frac{1}{2\pi i} \int_\gamma \frac{\omega(z)}{\omega(t)} \frac{f(t)}{t-z} dt  = \sum_{j=0}^n (-f(z_j)) l_j(z) + f(z) = f(z) - p(z)$$
+as desired.
+
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item Suppose $P$ and $Q$ are polynomials, and the degree of $Q$ exceeds that of $P$ by at least 2, and $Q$ has no roots on the real axis. Prove that 
+$\int_{-\infty}^\infty \frac{P(z)}{Q(z)}dz$ is $2\pi i$ times the sum of the residues of $P / Q$ in the upper half plane.
+
+Solution: Let $\gamma':[0, \pi] \to \C$ where $\gamma(t) = Re^{it}$. Since $Q$ has finitely many zeroes (it is a polynomial that is nontrivial), consider 
+$$ R > \max \{ |z| : Q(z) = 0, \im(z) > 0\} $$
+We have that the only possible candidates for residues are the points at which $Q$ is zero. Define $\gamma = \gamma' \oplus [-R, R]$. We have that this is a simple closed curve, so $\Ind_\gamma(z) = 1$ for all $z$ inside the semi-circle. Note by the residue theorem, we have 
+$$ \int_\gamma \frac{P(z)}{Q(z)} dz = 2\pi i\sum_k \Res_{z_k} \frac{P(z)}{Q(z)} $$
+where $z_k$ are the poles inside the closed curve (and with how we defined $R$, it is all the residues in the upper half plane).
+Now note that 
+$$ \int_\gamma \frac{P(z)}{Q(z)} dz = \int_{[-R, R]} \frac{P(z)}{Q(z)}dz + \int_{\gamma'} \frac{P(z)}{Q(z)} dz $$
+Suppose $P(z)$ is degree $n$, and $Q(z)$ is degree at least $n+2$. Then we have there exists $\mu_Q > 0$ and $r_Q \geq 1$ such that for all $|z| \geq r_Q$, $|Q(z)| \geq \mu_Q |z|^{n+2}$. Thus we have $|Q(Re^{it})| \geq \mu_Q R^{n+2}$ for $R \geq r_Q$. Now.
+$$ |P(z)| = |a_nz^n + ... + a_1z + a_0| \leq |a_n||z^n| + ... + |a_0| \leq (|a_n| + ... + |a_0|)|z|^n $$
+if $|z| \geq 1$. Thus we have that $P(z) \leq \mu_P |z|^n$, or $|P(Re^{it})| \leq \mu_P R^n$ with $\mu_P > 0$. Therefore we have that for sufficiently large $R$,
+$$ \left| \frac{P(z)}{Q(z)}\right| \leq \frac{\mu_P R^n}{\mu_Q R^{n+2}} = \frac{\mu_P}{\mu_QR^2} $$
+Thus we have that 
+$$ \lim_{R \to \infty} \sup \{ |f(Re^{it})|: t \in [0. \pi]\} = 0 $$
+and so by Jordan's lemma,
+$$ \lim_{R \to \infty} \int_{\gamma'}\frac{P(z)}{Q(z)} dz = 0 $$
+(with a mild abuse of notation, the $R$ changes for the defined $\gamma'$). Therefore we have that 
+$$ \lim_{R \to \infty} \int_\gamma \frac{P(z)}{Q(z)}dz = \lim_{R\to\infty}\left( \int_{\gamma'} \frac{P(z)}{Q(z)}dz + \int_{[-R, R]} \frac{P(z)}{Q(z)}dz \right)$$
+$$ = \int_{-\infty}^\infty \frac{P(z)}{Q(z)}dz $$
+and 
+$$ \int_\gamma \frac{P(z)}{Q(z)}dz = 2\pi i\sum_k \Res_{z_k} \frac{P(z)}{Q(z)} $$
+for all $R$, so we are done.
+
+\item Use this method to compute $\int_{-\infty}^\infty \frac{1}{(1+x^2)^2} dx$
+
+Solution: Note 
+$$ \frac{1}{(1+x^2)^2} = \frac{1}{(i + x)^2(i - x)^2} $$
+Thus we can easily see that it has poles of order 2 at $x = i$ and $x = -i$, but only $x = i$ is in the upper-half. Thus we have 
+$$ \Res_i f = \lim_{z \to \i} \frac{\partial}{\partial x} (\frac{(i - x)^2}{(i + x)^2(i - x)^2}) $$
+We get that the derivative of $\frac{1}{(i+x)^2}$ is $\frac{-2}{(i+x)^3}$, and so 
+$$ \lim_{z \to i} -\frac{2}{(i+x)^3} = -\frac{2}{(2i)^3} = -\frac{i}{4} $$
+Therefore 
+$$ \int_{-\infty}^\infty \frac{1}{(1+x^2)^2} dx = 2\pi i(-\frac{i}{4}) = \frac{\pi}{2} $$
+
+\end{enumerate}
+
+\item Its is required to expand the function $\frac{1}{1 + z^2} + \frac{1}{2 + z}$ is a Laurent series about the origin. How many such expansions are there? In which region is each of them valid? Find the coefficients $c_n$ explicitly for each of these expansions.
+
+Solution: The reason for multiple different Laurent series is the location of the poles. The Laurent series for $\frac{1}{1+z^2}$ is different inside $B_1(0)$ and $\C \setminus B_1(0)$ since the poles are $i, -i$ which are a distance of $1$ from the origin. The Laurent series for $\frac{1}{2+z}$ is different inside $B_2(0)$ and $\C \setminus B_2(0)$ since its pole is at $z = -2$. 
+
+First we consider $\frac{1}{1 +z^2}$. We have that the coefficient of the Laurent series of this function when $k > 0$ is 
+$$ \alpha_k = \frac{1}{2\pi i} \int_{\gamma} \frac{1}{z^{k+1}(1 + z^2)} dz$$
+We compute the residues. Note that $z = i$ and $z = -i$ are poles of order $1$, so 
+$$ \Res_i \frac{1}{z^{k+1}(1 + z^2)} = \lim_{z \to i} \frac{1}{z^{k+1}(z + i)} = \frac{1}{2i^{k+2}} = -\frac{1}{2i^k} $$
+$$ \Res_i \frac{1}{z^{k+1}(1+z^2)} \lim_{z\to -i} \frac{1}{z^{k+1}(z - i)} = \frac{1}{2(-i)^{k+2}} = \frac{(-1)^{k+1}}{2i^k} $$
+We also have that $z = 0$ is residue of order $k+1$, thus 
+$$ \Res_0 \frac{1}{z^{k+1}(1 + z^2)} = \frac{1}{k!} \lim_{z \to 0} g^{(k)}(z) $$
+where $g(z) = \frac{1}{(1 + z^2)}$. Rather than trying to evaluate the and then want to die, we can realize that $\frac{1}{1 + z^2}$ is holomorphic inside $B_1(0)$, so we can consider the power series by viewing it as a geometric series (since $|z^2| < 1$). Thus we have 
+$$ \frac{1}{ 1 + z^2} = 1 - z^2 + z^4 -... $$
+Thus we have by using the properties of power series
+$$ g^{(k)}(z) = \begin{cases} 0 & k \text{ odd} \\ (-1)^\frac{k}{2}k! & \text{ otherwise} \end{cases} $$
+and so we have 
+$$ \Res_0 \frac{1}{z^{k+1}(1+z^2)} = \begin{cases} 0 & k \text{ odd} \\ (-1)^\frac{k}{2} & \text{otherwise} \end{cases}$$
+Then we have that 
+$$ \alpha_k = \frac{1}{2\pi i}\int_{\Gamma_\frac{1}{2}(0)} \frac{1}{z^{k+1}(1 + z^2)} dz = \begin{cases} 0 & k \text{ odd} \\ (-1)^\frac{k}{2} & \text{otherwise} \end{cases} $$
+(since the residues $z = -i, i$ aren't inside the curve), and 
+$$ \alpha_k = \frac{1}{2\pi i} \int_{\Gamma_2(0)} \frac{1}{z^{k+1}(1+z^2)} dz = \begin{cases} 0 & k \text{ odd} \\ (-1)^\frac{k}{2} - \frac{1}{i^k} & \text{otherwise} \end{cases} $$
+Now if $k>0$ and we consider
+$$ \frac{1}{2\pi i} \int_\gamma \frac{z^{k-1}}{1 + z^2} dz $$
+We have that the integrand only has poles at $z = i$ and $z = -i$ of order 1, and after doing a bit of work
+$$ \Res_i \frac{z^{k-1}}{1 + z^2} = \frac{i^{k-1}}{2i} = - \frac{i^k}{2} $$
+and
+$$ \Res_{-i} \frac{z^{k-1}}{1 + z^2} = \frac{(-i)^{k-1}}{-2i} = \frac{(-1)^k i^{k-1}}{2i} = \frac{(-1)^{k+1}i^k}{2}$$
+Thus we have that 
+$$ \alpha_{-k} = \frac{1}{2\pi i} \int_{\Gamma_\frac{1}{2}(0)} \frac{z^{k-1}}{1 + z^2} dz = 0 $$
+$$ \alpha_{-k} = \frac{1}{2\pi i} \int_{\Gamma_2(0)} \frac{z^{k-1}}{1 + z^2} dz =\begin{cases} 0 & k \text{ odd} \\ -i^k & \text{otherwise} \end{cases}$$
+
+Now we consider the other part, the $\frac{1}{2 + z}$. 
+We have that 
+$$ \beta_k = \frac{1}{2\pi i} \int_\gamma \frac{1}{z^{k+1}(2+z)}dz $$
+Note that this has a pole of order $k+1$ at $z = 0$ and a simple pole at $z = -2$. We have 
+$$\Res_0 \frac{1}{z^{k+1}(2+z)}dz = \frac{1}{k!}\lim_{z \to 0} g^{(k)}(z) $$
+where $g(z) = \frac{1}{2+z}$, and so $g^{(k)}(z) = (-1)^k \frac{k!}{(2+z)^{k+1}} $. Thus the residue is $\frac{(-1)^k}{2^{k+1}}$. We also have that 
+$$ \Res_{-2} \frac{1}{(2+z)z^{k+1}} = \lim_{z \to -2} \frac{1}{z^{k+1}} = \frac{(-1)^{k+1}}{2^{k+1}} $$
+Therefore by the Residue Theorem we have that 
+$$ \beta_k = \frac{1}{2\pi i} \int_{\Gamma_1(0)} \frac{1}{(2+z)z^{k+1}} dz = \frac{(-1)^k}{2^{k+1}} $$
+$$ \beta_k = \frac{1}{2\pi i}\int_{\Gamma_3(0)}\frac{1}{(2+z)z^{k+1}}dz = 0 $$
+If $k > 0$, now we consider
+$$ \beta_{-k} = \frac{1}{2\pi i} \int_\gamma \frac{z^{k-1}}{2 + z} dz $$
+This only has a simple pole at $z = -2$. Thus 
+$$ \Res_{-2} \frac{z^{k-1}}{2+z} = \lim_{z \to -2} z^{k-1} = (-1)^{k+1}2^{k-1} $$
+and thus 
+$$ \beta_{-k} = \frac{1}{2\pi i} \int_{\Gamma_1(0)} \frac{z^{k-1}}{2 + z} dz = 0 $$
+$$  \beta_{-k} = \frac{1}{2\pi i} \int_{\Gamma_3(0)} \frac{z^{k-1}}{2 + z} dz = (-1)^{k+1}2^{k-1} $$
+
+Thus for the Laurent Series, inside $B_1(0)$ our coefficients are 
+$$ c_k = \begin{cases} -\frac{1}{2^{k+1}} & k \text{ odd} \\ (-1)^{k/2} + \frac{1}{2^{k+1}} & \text{otherwise} \end{cases}$$
+$$ c_{-k} = 0 $$
+For the Laurent Series in $B_2(0) \setminus B_1(0)$, we have the coefficients are 
+$$ c_k = \begin{cases} -\frac{1}{2^{k+1}} & k \text{ odd} \\ (-1)^{k/2} + \frac{1}{2^{k+1}} - \frac{1}{i^k} & \text{otherwise} \end{cases} $$
+$$ c_{-k} = \begin{cases} 0 & k \text{ odd} \\ -i^k & \text{otherwise} \end{cases} $$
+For $\C \setminus B_2(0)$ we have the coefficients are 
+$$ c_k = \begin{cases} 0 & k \text{ odd} \\ (-1)^{k/2} - \frac{1}{i^k} & \text{otherwise} \end{cases} $$
+$$ c_{-k} = \begin{cases} 2^{k-1} & k\text{ odd} \\ -i^k - 2^{k-1} & \text{otherwise} \end{cases}$$
+
+\item A continuous function $f$ on a compact subset $K \subset \R$ can be uniformly approximated: $p_n \to f$ uniformly on $K$ for some sequence $\{ p_n \}$ of polynomials. For $K \subset \C$ this is not true in general.
+
+\begin{enumerate}
+\item Show that $K = \overline{A(a, R_1, R_2)} = \{ z : R_1 \leq |z - a| \leq R_2\}$ (the closure of the annulus) provides a counterexample. 
+
+\vspace{3mm}
+
+Solution: Suppose we do have polynomials $p_n$ that converges uniformly to a continuous $f$. Then this implies that $f$ is holomorphic since the $p_n$ are holomorphic by Theorem 2.42, but this is a contradiction since not every continuous function is holomorphic (take $\re(z)$)
+
+
+\vspace{5mm}
+
+\item Let $K = \overline{A(0, 1, 2)}$ and $f(z) = \frac{z}{3} + \frac{1}{z}$. Find an explicit value for $\epsilon > 0$ such that $\sup_{z \in L} |f(z) - p(z)| > \epsilon$ for all polynomials $p$.
+
+
+
+\vspace{3mm}
+Solution: Note that this is equivalent to finding a bound for 
+$$ \sup_{z \in L} |\frac{1}{z} - p(z)| > \epsilon $$
+since $\frac{z}{3} + p(z)$ is a polynomial for polynomials $p$. We have that $f$ is holomorphic on $K' = A(0, 1 - \delta, 2 + \delta)$ (which is also an open set), and so for every $z \in K'$ we have a ball $\overline{B_r(z)} \subset K'$. Let $\gamma = \partial B_r(z)$. By Cauchy's Integral Formula we have 
+$$ \frac{1}{z} - p(z) = \frac{1}{2\pi i}\int_\gamma \frac{\frac{1}{w} - p(w)}{w - z}dw $$
+Note that we have $p(w) = a_0 + a_1w + ... + a_nw^n$ and it can be rewritten as $p(w) = b_0 + b_1(w-z) + ... + b_n(w-z)^n$ (if we set up the system of linear equations to solve for this, we get a lower/upper triangular matrix depending on how you order the equations where the diagonal entries are all one, meaning the system is invertible, and thus there exists a solution). Thus we get that 
+$$ \int_\gamma \frac{\frac{1}{w} - p(w)}{w-z}dw = \int_\gamma \frac{\frac{1}{w} - b_0}{w - z} + g(w) dw $$
+where $g(w) = b_1 + ... + b_n(w-z)^{n-1}$. Note that since $g$ is polynomial, it is holomorphic and thus the integral around the closed curve is 0, so we get that the integral becomes 
+$$ \frac{1}{2\pi i}  \int_\gamma \frac{\frac{1}{w} - b_0}{w - z} dw = \frac{1}{z} - b_0 $$
+using Cauchy's Integral Formula again. Thus we try and find a lower bound for 
+$$ | \frac{1}{z} - b_0 | $$
+Note that no matter how we choose $z \in K$, then $\frac{1}{z} \in \overline{A(0, \frac{1}{2}, 1)}$, and no matter how we choose $b_0$, there will always exists a $\frac{1}{z}$ such that $|\frac{1}{z} - b_0| > \frac{1}{2}$. Suppose otherwise, then we have that 
+$$ |-1 - b_0| \leq \frac{1}{2}, \hspace{4mm} |b_0 - 1| \leq \frac{1}{2} $$
+Thus we get by the triangle inequality 
+$$ |-2| \leq |-1 - b_0| + |b_0 - 1| \leq 1 $$
+a contradiction. Thus we have that $\sup_{z \in K} |\frac{1}{z} - b_0| > \frac{1}{2}$, and so we have that 
+$$ \sup_{z \in L} |\frac{1}{z} - p(z)| > |\frac{1}{2\pi i} \frac{1}{2}| = \frac{1}{4 \pi} $$
+
+\end{enumerate}
+
+\item Let $\gamma:[0,1] \to \C$ be the curve given by $\gamma(t) = \frac{6e^{2\pi i t} + 2e^{6 \pi i t}}{10e^{4\pi i t} - 1}$.
+\begin{enumerate}
+\item Find $f$ holomorphic on a neighbourhood of the unit circle $\{ |z| = 1 \}$ such that $f \circ \Gamma = \gamma$ (where $\Gamma$ is the curve that parametrizes the unit circle
+
+Solution: We have that 
+$$ f(z) = \frac{6z + 2z^3}{10z^2 - 1} $$
+satisfies the requirements.
+
+\item Use the argument principle to calculate $\Ind_\gamma(0)$
+
+Solution: 
+$$ \Ind_\gamma(0) = \frac{1}{2\pi i} \int_\gamma \frac{1}{w} dw = \int_0^1 \frac{\gamma'(t)}{\gamma(t)}dt = \int_0^1 \frac{f'(\Gamma(t))\Gamma'(t)}{f(\Gamma(t))}dt = \int_\Gamma \frac{f'(t)}{f(t)}dt $$
+Thus we see that $f(z)$ has a root at $z = 0$ insider $B_1(0)$ and has two simple poles at $z = \pm \frac{1}{\sqrt{10}}$. Thus by the argument principle, we have that 
+$$ \Ind_\gamma(0) = -1 $$
+
+\item Calculate $\Ind_\gamma(1 + i)$
+
+Solution: Let $g(z) = f(z) - (1 + i)$. Then 
+$$g(\Gamma(t)) = f(\Gamma(t)) - (1 + i) = \gamma(t) - (1 + i)$$
+and 
+$$ \frac{d}{dt} g(\Gamma(t)) = g'(\Gamma(t))\Gamma'(t) = f'(\Gamma(t))\Gamma'(t) $$
+since $g$ and $f$ differ by a constant. Thus we have that 
+$$ \Ind_{\gamma}(1+i) = \frac{1}{2\pi i} \int_\gamma \frac{1}{w - (1+i)}dw = \frac{1}{2\pi i} \int_0^1 \frac{\gamma'(t)}{\gamma(t) - (1 + i)} dt$$
+$$ = \frac{1}{2\pi i} \int_0^1 \frac{g'(\Gamma(t)) \Gamma'(t)}{g(\Gamma(t))}dt = \frac{1}{2\pi i} \int_\Gamma \frac{g'(z)}{g(z)}dz $$
+Note that the poles for $g$ are the same as the poles for $f$, so it has two simple poles. Then solving for when $g$ is zero (using Wolfram Alpha), we have that there are two places inside $B_1(0)$ where $g$ is zero. Thus by the argument principle, $\Ind_\gamma(1+i) = 0$
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

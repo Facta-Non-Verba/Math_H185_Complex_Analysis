@@ -1138,4 +1138,41 @@ We can also use the residue theorem to verify that
 $$ \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} $$
 \end{example}
 
+\subsection{The Maximum Principle}
+\begin{lemma} 
+Let $U$ be open, $f:U\to\C$ holomorphic, $\gamma$ piecewise smooth closed curve in $U$, $b \in U \setminus \gamma*$. Then 
+$$ \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z) - b} dz = \Ind_{f \circ \gamma} (b) $$
+\end{lemma}
+
+Proof: We have that 
+$$ \Ind_{f \circ \gamma}(b) = \frac{1}{2\pi i} \int_{f\circ \gamma} \frac{1}{z-b}dz = \frac{1}{2\pi i} \int_a^b \frac{f'(\gamma(t))\gamma'(t)}{f(\gamma(t)) - b} dt $$
+$$ = \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z) - b} dz $$
+
+\begin{definition}
+A simple curve $\gamma$ is a closed curve such that 
+$$ \Ind_\gamma(a) \in \{0, 1\} $$
+for all $a \in \C \setminus \gamma^*$
+\end{definition}
+
+\begin{theorem}
+Argument Principle: Let $U$ be open, connected, $\gamma$ simple curve and null-homotopic in $U$. Define 
+$$U_1 = \{ a \in \C \setminus \gamma^* | \Ind_\gamma(a) = 1\} \subset U$$
+Let $A \subset \C$ be a finite set, $f:U \setminus A \to \C$ be holormophic. Suppose $f$ has a pole at all $a \in A$. Suppose $f$ has no pole/zero in $\gamma^*$. Then $f$ has finitely many zeroes in $U_1$. Let $N_f$, $P_f$ be the number of zeroes, poles respectively in $U_1$ counting multiplicty. Then 
+$$ N_f - P_f = \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} dz = \Ind_{f \circ \gamma}(0) $$
+\end{theorem}
+
+Proof: Note that the poles are isolated since $A$ is a finite set. We have that $U$ is connected, and so $U \setminus A$ is connected (isolated implies ball that doesn't contain other elements of $A$, we can then reroute the path if it goes through an element of $A$ around the center). $f$ also has finitely many zeros, otherwise we can create a sequence of unique points that has a convergent subsequence (compactify $U_1$ since it is bounded) and so we have that $f$ is identically zero. Then we have that $V = U \setminus (A \cup \{ z \in U | f(z) = 0 \})$ is open (because zeros of finite multiplicities are isolated). Thus define $g:V \to \C$ by $g(z) = \frac{f'(z)}{f(z)}$. $g$ is holomorphic. First consider zeroes. Let $a \in U$ and $m \in \mathbb{N}$, and suppose $f$ has a zero at $a$ of order $m$. So there exists $h: U \to \C$ such that $h(a) \neq 0$ and $f(z) = (z-a)^mh(z)$. Locally, 
+$$ g(z) = \frac{f'(z)}{f(z)} = \frac{m(z-a)^{m-1}h(z) + (z-a)^mh'(z)}{(z-a)^mh(z)} = \frac{m}{z-a} + \frac{h'(z)}{h(z)} $$
+We have that the right function is holomorphic near $a$, so $\Res_a(g) = m$. If we do a similar thing for poles, where $a$ is one of order $n$, we get that 
+$$ f(z) = \frac{h(z)}{(z-a)^n} $$
+and so we have that $\Res_a(g) = 0$. Thus we get that answer after applying the residue theorem. 
+
+\begin{definition}
+$A \subset \C$ is \textbf{discrete} if $\exists r > 0$ such that for all $z \in A$ we have that $B_r(z) \cap A$ is finite. Let $U$ be open, $A$ discrete in $U$. We say $f$ is meromorphic on $U$ if $\text{Dom}(f) = U \setminus A$ and $f$ is holomorphic with a pole at every $a \in A$. We then say $f$ is meromorphic on $U$ with finite singularities. 
+\end{definition}
+
+\begin{corollary} 
+Let $U$ be open and connected, $\gamma$ simple and null-homotopic in $U$. Suppose $f: U \to \C$ holomorphic and take $b \in \C \setminus \gamma^*$. Let $U_1 = \{ a \in U | \Ind_\gamma(a) = 1\} \subset U$. Then $f-b$ has finitely many zeros in $U_1$, and with multiplicity equal to $\frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z) -b} dz$.
+\end{corollary}
+
 \end{document}
