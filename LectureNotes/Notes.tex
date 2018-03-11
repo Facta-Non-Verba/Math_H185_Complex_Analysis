@@ -1215,4 +1215,26 @@ Proof: $f$ is not constant so $f' \neq 0$ implying that we can't have a sequence
 $$ \Ind_{f\circ\gamma}(b) = N $$
 Let $V_0 = \{ w \in \C \setminus (f \circ \gamma ) | \Ind_{f\circ\gamma}(w) = N\}$. It is open because $\Ind_{f\circ\gamma}$ is continuous and takes integer values. Let $U_0 = B_r(a) \cap f^{-1}(V_0)$ which is open by continuity of $f$. We have that $f(U_0) \subset V_0$. Let $w in V_0 \setminus \{ b\}$, so $\Ind_{f\circ\gamma}(w) = N$. Argument principle implies that $f-w$ has $N$ zeros counted with multiplicities in $B_r(a)$. Let $z$ be one such zero. So $f(z) = w$, which implies $V_0 \subset f(U_0)$. Then $f'(z_0) \neq 0$ so $(f-w)'(z) \neq 0$ meaning that $f-w$ has a zero of order one at $z$.
 
+\begin{theorem}
+Maximum Modulus Principle: If $U$ is open, connected, $f:U \to \C$ holomorphic, then if $|f|$ obtains a maximum, it is constant. 
+\end{theorem}
+
+\begin{theorem}
+If $|f|$ obtains its minimum, its constant or $|f| = 0$.
+\end{theorem}
+
+\begin{theorem}
+If $\re f$ or $\im f$ obtains a maximum then $f$ is constant. 
+\end{theorem}
+
+\begin{corollary} 
+Let $U$ be open, $f: U \to \C$ holomorphic, $a \in U, r > 0$ and $\overline{B_r(a)} \subset U$. Let 
+$$M = \max_{z \in \overline{B_r(a)}} |f(z)|$$
+If $f$ is not constant, then $|f|_{B_r(a)}| < M$. 
+\end{corollary}
+
+\begin{example}
+Some example that really didn't make sense in lecture
+\end{example}
+
 \end{document}
