@@ -1228,13 +1228,49 @@ If $\re f$ or $\im f$ obtains a maximum then $f$ is constant.
 \end{theorem}
 
 \begin{corollary} 
+Let $U$ be open, connected, and bounded. Suppose $f: \overline{U} \to \C$ be continuous with $f|_U$ holomorphic. Then 
+$$ \sup_{z\in U} |f(z)| = \max_{z \in \overline{U}} |f(z)| = \max_{z\in\partial U} |f(z)| $$
+\end{corollary}
+
+Proof: The first equality follows form compactness. For the second, $\geq$ is obviously true. $\leq$ is true by the maximum modulus principle on $U$.
+
+\begin{corollary} 
 Let $U$ be open, $f: U \to \C$ holomorphic, $a \in U, r > 0$ and $\overline{B_r(a)} \subset U$. Let 
 $$M = \max_{z \in \overline{B_r(a)}} |f(z)|$$
 If $f$ is not constant, then $|f|_{B_r(a)}| < M$. 
 \end{corollary}
 
+
 \begin{example}
 Some example that really didn't make sense in lecture
 \end{example}
+
+\begin{example}
+Placeholder
+\end{example}
+
+\begin{theorem}
+(Schwarz's Lemma) Let $f:B_1(0) \to B_1(0)$ be holomorphic such that $f(0) = 0$. Then $|f(z)| \leq |z|$ for all $z \in B_1(0)$ and $|f'(0)| \leq 1$. Suppose for some $a \in B_1(0) \setminus \{ 0 \}$ we have $|f(z)| = |z|$. Then $f(z) = \lambda z$ for some $|\lambda| = 1$. 
+\end{theorem}
+
+Proof: Define $g:B_1(0) \to \C$ as 
+$$ g(z) = \begin{cases} \frac{f(z)}{z} & z \neq 0 \\ f'(z) & z = 0 \end{cases}$$
+$g$ is holomorphic on $B_1(0) \setminus \{ 0 \}$ and continuous at $0$, so $g$ is holomorphic. We have that for all $z \in \partial B_r(0)$, where $r \in (0, 1)$ we have that $|g(z)| = \frac{|f(z)|}{|z|} \leq \frac{1}{r}$. Thus we get $|g(z)| \leq 1$ on $\partial B_1(0)$, and so by Corollary 3.55, $|g(z)| \leq 1$ on $B_1(0)$. Thus $|f(z)| \leq |z|$ on $B_1(0)$. If $|g(z)| = 1$ somewhere in $B_1(0)$, then $|g(z)|$ is constant, so $f = \lambda$ (ie $f(z).= \lambda z$).
+
+\begin{corollary}
+Let $f: B_1(0) \to B_1(0)$ be a bijection with $f(0) = 0$. Suppose $f$, $f^{-1}$ are holomorphic. Then there exists $|\lambda| = 1$ such that $f = \lambda$.
+\end{corollary}
+
+Proof: By Schwarz's Lemma, we have that $|f^{-1}(z)| \leq |z|$ so that implies $|f(z)| \geq |z|$ for all $z \in B_1(0)$. Schwarz's Lemma also implies that $|f(z)| \leq |z|$, so $|f(z)| = |z|$ giving us the desired. 
+
+\begin{theorem}
+Let $U$ be open, connected, $f:U \to \C$ injective holomorphic. Let $V = f(U)$. Then $V$ is open. Let $g: V \to U$ be the inverse of $f$. Then $g$ is holomorphic, and $f'(a) \neq 0$ for all $a \in U$.
+\end{theorem}
+
+Proof: $f$ is not constant $U$ so $V$ is open by open mapping theorem. Let $a \in U$, $ b = f(a)$. Then for all $r > 0$ we have that $f(U \cap B_r(a))$ is open, so $g$ is continuous at $b$. Suppose $f'(a) = 0$, then $f(a) - b$ has a zero of order 2 and so by the open mapping theorem there exists $r> 0$ such that $\forall w \in B_r(b) \setminus \{ b \}$ the function $f -w $ has 2 different zeroes in $U$. Since $f$ is injective this is a contradiction so $f'(a) \neq 0$. Define 
+$$ H(z) = \begin{cases} \frac{z-a}{f(z) - b} & z \neq a \\ \frac{1}{f'(z)} & z = a \end{cases} $$
+We have that $H$ is continuous at $a$ and $H \circ g$ is continuous at $b$. Thus 
+$$ \lim_{u \to b} \frac{g(u) - g(b)}{u - b} = \lim_{u \to b} H\circ g(u) = \frac{1}{f'(a)} $$
+so $g$ is differentiable at $b$ and so it is holomorphic. 
 
 \end{document}
