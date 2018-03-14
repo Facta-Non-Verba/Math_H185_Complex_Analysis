@@ -1273,4 +1273,44 @@ We have that $H$ is continuous at $a$ and $H \circ g$ is continuous at $b$. Thus
 $$ \lim_{u \to b} \frac{g(u) - g(b)}{u - b} = \lim_{u \to b} H\circ g(u) = \frac{1}{f'(a)} $$
 so $g$ is differentiable at $b$ and so it is holomorphic. 
 
+\begin{proposition}
+Let $U$ be open, $f: U \to \C$ holomorphic, $a \in U$ with $f'(a) \neq 0$. Then there exists $r > 0$ such that $B_r(a) \subset U$ and $f|B_r(a)$ is injective. 
+\end{proposition}
+
+\subsection{Conformal Maps}
+\begin{definition}
+Let $\gamma_1, \gamma_2:[0,1] \to \C$ with $\gamma_1(0) = z = \gamma_2(0)$ and $\gamma_1'(0) \neq 0 \neq \gamma_2'(0)$. Then the angle between $\gamma_1$ and $\gamma_2$ is the unique $\theta \in (-\pi, \pi]$ such that 
+$$ \frac{\gamma_1'(0)}{\gamma_2'(0)} = \left| \frac{\gamma_1'(0)}{\gamma_2'(0)}\right|e^{i\theta} $$
+\end{definition}
+
+\begin{lemma}
+Let $U$ be open $f: U \to \C$ holomorphic, $\gamma_1, \gamma_2$ as above and $\gamma_1(0) = \gamma_2(0) = z \in U$. If $f'(z) \neq 0$, then the angle between $\gamma_1$ and $\gamma_2$ is the same as the angle between $f \circ \gamma_1$, $f\circ \gamma_2$.
+\end{lemma}
+
+Proof: 
+$$ \frac{(f\circ\gamma_1)'(0)}{(f\circ\gamma_2)'(0)} = \frac{f'(\gamma_1(0))\gamma_1'(0)}{f'(\gamma_2(0))\gamma_2'(0)} = \frac{f'(z)}{f'(z)} \frac{\gamma_1'(0)}{\gamma_2'(0)} $$
+
+\begin{definition}
+Let $U$ be open, $f: U \to \C$. Then $f$ is called \textbf{conformal} if $f'$ never vanishes. 
+\end{definition}
+
+Note that injectivity implies conformality. 
+
+\begin{definition}
+$f$ is \textbf{biholomoprhic} if it acts between $U, V \subset \C$ open and $f, f^{-1}$ are holomorphic. 
+\end{definition}
+
+\begin{definition}
+$U$ and $V$ are \textbf{conformal} if there exists $f: U \to V$ biholomorphic.
+\end{definition}
+
+\begin{theorem}
+Riemann Mapping Theorem: Let $U$ nonempty be an open, connected, simply connected subset of $\C$. Then $U$ is conformal to either $B_1(0)$ or $\C$.
+\end{theorem}
+
+\begin{theorem}
+Let $f$ be biholomorphic, $f:B_1(0) \to B_1(0)$. Then there exists unique $a \in B_1(0)$, $|c| = 1$ such that 
+$$ f(z) = c \left(\frac{z-a}{1 - \overline{a}z}\right) $$
+\end{theorem}
+
 \end{document}
