@@ -21,6 +21,7 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Ind}{\text{Ind}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Res}{\text{Res}}
 \newcommand{\sla}{\char`\\}
@@ -1312,5 +1313,37 @@ Riemann Mapping Theorem: Let $U$ nonempty be an open, connected, simply connecte
 Let $f$ be biholomorphic, $f:B_1(0) \to B_1(0)$. Then there exists unique $a \in B_1(0)$, $|c| = 1$ such that 
 $$ f(z) = c \left(\frac{z-a}{1 - \overline{a}z}\right) $$
 \end{theorem}
+
+\section{Harmonic Functions}
+Let $V$ be open, simply connected, connected in $\R^2$. If $u: V \to \R$ is $C^2$ and $\nabla^2 u = 0$ then $u$ is harmonic. Let $U \equiv V$ (using the natural isomorphism between $\C$ and $\R$). If $f:U\to\C$ holomorphic, then $u = \re f$ is holomorphic by the Cauchy Riemann equations. 
+
+\begin{theorem}
+Let $V$ be open, connected, simply connected. Suppose $u: V \to \R$ harmonic. Then there exists $f: U \to \C$ holomorphic with $\Re f = u$.
+\end{theorem}
+
+\begin{corollary}
+A harmonic function is smooth.
+\end{corollary}
+
+\begin{corollary}
+Suppose $V$ is an open subset of $\R^2$, with $u:V\to\R$ harmonic. Suppose $(a,b) \in V$ and $r>0$ such that $\overline{B_r(a,b)} \subset V$. Then we have
+$$ u(a,b) = \frac{1}{2\pi} \int_0^{2 \pi} u(a + r\cos \theta, b + r\sin \theta)d\theta $$
+\end{corollary}
+
+Proof: Because $V$ is open, there exists $s > r$ such that $\overline{B_r(a,b)} \subset B_s(a,b)\subset V$. Then there exists $f: B_s(a + bi) \to \C$ holomorphic with $\Re f = u$. Consider $\Gamma_r(z_0)$. By the contour integral formula,
+$$ f(z_0) = \frac{1}{2\pi i} \int_{\Gamma_r(z_0)} \frac{f(w)}{w- z_0}dw = \frac{1}{2\pi i} \int_0^{2\pi} \frac{f(z_0 + re^{it})}{z_0 + re^{it} - z_0} * ire^{it} dt $$
+$$ = \frac{1}{2\pi} \int_0^{2\pi} f(z_0 + re^{it})dt $$
+If we just consider the real part of the integral, the answer follows.
+
+\begin{theorem}
+Let $u:V\to\R$ be harmonic, and $V$ connected, open. If $u$ attains its maximum then $u$ is constant. 
+\end{theorem}
+
+Proof: Suppose $u$ obtains its maximum. Set $f:V\to\C$ holomorphic with $\Re f = u$. Let $p$ be the point where $u$ obtains its maximum. Then by openness we have $B_r(p) \subset V$ for some $r$. Note that $B_r(p)$ is connected and simply connected so by the open mapping theorem (the corollary about the real part) $f$ is constant on $B_r(p)$, and so by connectedness, $f$ is constant on $V$, as desired. 
+
+\begin{corollary}
+Let $u:\overline{V} \to \R$ and $u|_V$ be harmonic. Then
+$$ \sup_{(x,y) \in V} = \max_{(x,y) \in \overline{V}} u(x,y) = \max_{(x,y) \in \partial V} u(x,y) $$
+\end{corollary}
 
 \end{document}
