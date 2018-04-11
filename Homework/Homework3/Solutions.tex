@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+\newcommand{\re}[0]{\text{Re}}
+\newcommand{\im}[0]{\text{Im}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\Res}{\text{Res}}
+
+\title{Math H185 Homework 3}
+\author{Eric Xia}
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}[(1)]
+\item Suppose $f$ is conformal from the unit disk to the unit square centered at $0$, with $f(0) = 0$.
+
+\begin{enumerate}[(a)]
+\item Prove that $f(iz) = if(z)$.
+
+Solution: Consider the function $g(z) = f^{-1}(if(z))$. Note that since $f$ is surjective and conformal, such a $g$ is defined since $if(z)$ is a $90^o$ rotation of $f(z)$ and the unit square is invariant under such rotations (I think this easily generalizes to any shape that has 90 degree rotational symmetry). After some calculations we can verify that 
+$$ g'(z) = \frac{if'(z)}{f'(f^{-1}(if(z)))} $$
+and since $f'$ is positive, $g' > 0$ and so $g$ is a conformal bijection between the unit disk and the unit square. Note that we can verify $g(0) = 0$ and $g'(0) = i$, so we can apply Schwarz's lemma. Through the proof of Schwarz's lemma (or its statement on Wikipedia) we can see that if $|g'(0)| = 1$, then $g(z) = g'(0)z = iz$. Thus we have that 
+$$ f^{-1}(if(z)) = iz = f^{-1}(f(iz)) $$ 
+and since $f^{-1}$ is injective, then $if(z) = f(iz)$. 
+
+\item If $f(z) = \sum c_n z^n$, prove that $c_n = 0$ unless $n-1$ is a multiple of 4.
+
+Solution: Note that iwe have 
+$$ f(iz) =\sum \begin{cases} 
+ c_nz^n \hspace{5mm} n \equiv 0 \pmod{4} \\
+ic_nz^n \hspace{5mm} n \equiv 1 \pmod{4} \\
+-c_nz^n \hspace{5mm} n \equiv 2 \pmod{4} \\
+-ic_nz^n \hspace{5mm} n \equiv 3 \pmod{4}
+\end{cases}$$
+
+If $f(iz) = if(z)$, then only if $n \equiv 1 \pmod{4}$ can the coefficient be non-zero, otherwise the terms will not be equal. 
+
+\end{enumerate}
+
+\item Let $B = B_1(0)$ and $B^+ = \{(x, y)\} \in B: y > 0\}$ be the upper half of the unit disk. Suppose $h$ is harmonic on $B^+$ and $\lim_{z\to\zeta} h(z) = 0$ for all $\zeta \in B \cap \R$. Show that $h$ extends to a harmonic function on $B$ via $h(x, -y) = - h(x,y)$.
+
+Solution: Let 
+$$ g(x,y) = \begin{cases} 
+h(x, y) \hspace{5mm} y > 0 \\
+0 \hspace{10mm} y = 0 \\
+-h(x, -y) \hspace{5mm} \text{otherwise}
+\end{cases} $$
+We wish to show that $g$ is harmonic. It clearly is true for $B^+$ since $h$ is harmonic. For $y < 0$, partial derivatives and second partial derivatives exist for $g$ since they exist for $h$ harmonic. Thus we have for $y < 0$
+$$ \frac{\partial g}{\partial x}|_{(x, y)} = \frac{\partial}{\partial x} -h(x, -y) | _{(x, y)} = -\frac{\partial h}{\partial x}|_{(x, -y)}$$
+and similarly
+$$ \frac{\partial^2 g}{\partial x^2}|_{(x, y)} = - \frac{\partial^2 h}{\partial x^2}|_{(x, -y)} $$
+For $y$ we need to be a little more careful about the negative signs
+$$ \frac{\partial g}{\partial y}|_{(x, y)} = \frac{\partial}{\partial y} -h(x, -y) | _{(x, y)} = \frac{\partial h}{\partial x}|_{(x, -y)}$$
+and 
+$$ \frac{\partial^2 g}{\partial x^2}|_{(x, y)} = - \frac{\partial^2 h}{\partial x^2}|_{(x, -y)} $$
+Since $\frac{\partial^2 h}{\partial x^2} + \frac{\partial^2 h}{\partial y^2} = 0$, we can easily verify that 
+$$ \frac{\partial^2 g}{\partial x^2} + \frac{\partial^2 g}{\partial y^2} = -\left( \frac{\partial^2 h}{\partial x^2} + \frac{\partial^2 h}{\partial y^2} \right) = 0 $$
+for $y < 0$. 
+
+For the case of $y=0$, it is obvious that $\frac{\partial g}{\partial x} = 0$ since $g$ is zero on $\R$ (and thus the second partial is also 0). A rough argument of why $\frac{\partial g}{\partial y}$ exists is that by L'Hopital's rule (or a Taylor expansion) gives 
+$$ \lim_{t \to 0} \frac{g(x, t)}{t} = \lim_{t \to 0} \frac{\partial g}{\partial y} (x, t) $$
+Note that $g$ is continuously differentiable with respect to $y$ on $(-1, 1) \setminus \{ 0 \}$ since it is second differentiable, and the limit is well defined since from our calculations above, we have $\frac{\partial g}{\partial y}$ is symmetric about $y = 0$ and thus the left limit and right limit are both defined and equal, so the limit is defined. Since it is defined, we can use the formula to calculate for the second derivative,
+$$ \frac{\partial^2 g}{\partial y^2} = \lim_{t \to 0} \frac{ g(x, t) - g(x,0) + g(x, -t)}{t^2} = \lim_{t \to 0} \frac{0}{t^2} = 0 $$
+Thus $g$ is harmonic on $B$ and I really should have used complex analysis to solve this question.
+
+\item Recall that $P(re^{i\varphi}, e^{i\theta}) = \frac{1 - r^2}{|e^{i\theta} - re^{i\varphi}|^2}$ is the Poisson kernel for the unit disk.
+
+\begin{enumerate}[(a)]
+\item Show that $P(re^{i\varphi}, e^{i\theta}) = \sum_{n=-\infty}^{\infty} r^{|n|}e^{in(\varphi - \theta)}$
+
+Solution: We have that the Poisson kernel is equal to 
+$$ \re\left( \frac{e^{i\theta} + re^{i\varphi}}{e^{i\theta} - re^{i\varphi}}\right) = \re \left( \frac{1+ re^{i\alpha}}{1- re^{i\alpha}}\right) $$
+where $\alpha = \varphi - \theta$. Thus we have that 
+$$ \re \left( \frac{1+ re^{i\alpha}}{1- re^{i\alpha}}\right) = \re\left(-1 + \frac{2}{1 - re^{i\theta}}\right) = -1 + 2 * \re\left(\frac{1}{1- re^{i\theta}}\right)$$
+Since $r < 1$, we can apply the formula for the geometric series (from which we have uniform convergence) and get that it equals 
+$$ = - 1 + 2 * \sum_{n=0}^{\infty} \re(r^{n}e^{in\alpha}) $$
+Note that we have $2 * \re(e^{in\alpha}) = e^{in\alpha} + e^{-in\alpha}$, so we get that the expression becomes 
+$$ = \sum_{n=-\infty}^\infty r^{|n|}e^{in(\varphi - \theta)} $$
+(also implicitly using the fact that the real function is linear and dealing with the $-1$ outside appropriately). 
+
+\item Show that for a continuous function $\phi$ on $\partial B$, the solution to the Dirichlet problem $P_B(\phi)$ can be written as 
+$$ P_B\phi(re^{i\theta}) = \sum_{n=-\infty}^{\infty} a_nr^{|n|}e^{int}$$
+where $a_n$ is a bounded sequence of real numbers.
+
+Solution: Note that even after applying the real function, we still have uniform convergence of the series by the triangle inequality (ie the fact that $|\re(z)| \leq |z|$). Thus plugging into our solution to the Dirichlet problem we get that the value is 
+$$ u(re^{i\varphi}) = \frac{1}{2\pi} \int_0^{2\pi} \phi(\cos \theta, \sin \theta) \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2} d\theta $$
+$$ = \frac{1}{2\pi}\int_0^{2\pi} \phi(\cos \theta, \sin \theta) \sum_{n=-\infty}^{\infty} r^{|n|}e^{in(\varphi - \theta)}d\theta $$
+$$ = \frac{1}{2\pi} \sum_{n=-\infty}^{\infty} r^{|n|}e^{in\varphi} \int_0^{2\pi} \phi(\cos \theta, \sin \theta) e^{-in \theta} d\theta $$
+Clearly each term is bounded since $\phi(\cos \theta, \sin \theta)e^{-in \theta}$ is bounded, but Aidan and I had consulted and decided that it isn't necessarily real. Let $\phi(x,y) = y$. $\phi$ is continuous, but the imaginary part of $\int_0^{2\pi} \sin \theta e^{in\theta}d\theta$ isn't $0$ for $n = 1$. 
+
+\end{enumerate}
+
+\item Let $D \subset \C$ be a bounded domain. Given $z, w \in D$, define $\tau_D(z,w)$ as the smallest $C > 0$ for which 
+$$ \frac{1}{C} h(w) \leq h(z) \leq Ch(w)$$
+for every positive harmonic function $h$ on $D$.
+
+\begin{enumerate}[(a)]
+\item Show that $\tau(z,w) \geq \frac{d + |z-w|}{d - |z-w|}$ for some $d > 0$.
+
+Solution: Let $R = \sup_{z, w \in D} |z - w|$. Then define $B = \cup_{z \in D} B_R(z)$. Note the closure of $B$ contains $\overline{B_R(z)}$ because of the fact that the closure is the smallest closed set which contains it. Also every positive harmonic function on $B$ is also a positive harmonic function on $D$ (but not the other way around), thus $\tau_B(z, w) \leq \tau_D(z,w)$. Otherwise if $\tau_D(z,w) < \tau_B(z,w)$ then since the positive harmonic functions on $D$ contain those on $B$,
+$$\frac{1}{\tau_D(z,w)}h(w) \leq h(z) \leq \tau_D(z, w) h(w)$$
+for every harmonic function $h$ on $B$, but $\tau_D(z,w) < \tau_B(z, w)$, a contradiction. Note that since $\tau_B(z,w)$ is the smallest such that $\tau_B(z,w) \geq \frac{h(z)}{h(w)}$ we have that by Harnack's inequality
+$$ \tau_B(z,w) = \sup_h \frac{h(z)}{h(w)} \leq \frac{R + |z - w|}{R - |z - w|}$$
+and I have no idea of where to go from here. I feel like there just might be a counterexample somehow.
+
+\item Show that $\log \tau(z, w)$ is a metric on $D$.
+
+Solution: Note that $\tau_D(z,w) \geq 1$ for all $z ,w \in D$ obviously (otherwise the inequality defined above would be nonsense). Thus it is non-negative. Clearly if $z = w$, $\tau_D(z,w) = 1$ is valid, and by the above reasoning we can't be any smaller, so $\log \tau_D(z,w) = 0$. Suppose $z \neq w$, we want to show $\tau_D(z,w) >1$, which is obviously true because for all $z,w \in D$ there exists $h$ such that $h(z) \neq h(w)$, so thus $C$ must be some value greater than $1$ in this case, and so the distance is not zero. For the final property, it suffices to show that 
+$$ \tau(w, z) \leq \tau(w, y) \tau(y, z) $$ 
+Note that we have 
+$$ \frac{1}{\tau(w, y)} h(y) \leq h(w) \leq \tau(w,y)h(y)$$
+$$ \frac{1}{\tau(y, z)} h(z) \leq h(y) \leq \tau(y,z)h(z) $$
+Thus plugging the second inequalities into the first 
+$$ \frac{1}{\tau(w,y)\tau(y,z)} h(z) \leq h(w) \leq \tau(w,y)\tau(y,z) h(z) $$
+for every positive harmonic $h$ so we conclude that $\tau(w,z) \leq \tau(w, y)\tau(y,z)$
+
+
+\item Show that if $w \in D$ and $\zeta \in \partial D$, then $\tau_D(z,w) \to \infty$ as $z \to \zeta$
+
+Solution: Let $R = \sup_{z, w \in D} |z - w|$. Then we have that $g(z) = -\log |\frac{z - \zeta}{R}|$ is a positive function on $D$. We can verify that it is harmonic. Translations and scalings preserve the harmonic property, so it suffices to show that $\log |z|^2$ is harmonic. We have 
+$$ \log |z|^2 = \log(x^2 + y^2) $$
+Thus we have 
+$$ \frac{\partial g}{\partial x} = \frac{2x}{x^2 + y^2}, \frac{\partial g}{\partial y} = \frac{2y}{x^2 + y^2} $$
+and 
+$$ \frac{\partial^2g}{\partial x^2} = \frac{2(x^2 + y^2) - 4x^2}{(x^2 + y^2)^2}, \frac{\partial^2g}{\partial y^2} = \frac{2(x^2 + y^2) - 4y^2}{(x^2 + y^2)^2} $$
+and so clearly $\log |z|^2$ is harmonic giving that $g$ is harmonic. Note we have that $\lim_{z\to \zeta} g(z) = \infty$, giving us that $\tau(z, w) \to \infty$ as $z \to \zeta$.
+
+\end{enumerate}
+
+\item Let $u$ be a continuous function that is subharmonic on the unit disk $B = B_1(0)$ with $u < 0$
+
+\begin{enumerate}[(a)]
+\item Show that there exists $R \in (0,1)$, $c > 0$ such that $u(z) - c \log |z| < 0$ when $R < |z| < 1$.
+
+Solution: Note that $\log |z|^2 = 2 \log |z|$, so $\log |z|$ is harmonic. Note that on $\partial B_1(0)$, $\log |z| = 0$ so $u \leq c \log |z|$ no matter what $c > 0$ you choose since by continuity $u \leq 0$ on $\overline{B_1(0)}$. Arbitrarily pick $R \in (0,1)$. We have that $\overline{B_R(0)}$ is compact so $u$ obtains a maximum on it. Therefore we have that $a = \max_{z \in \overline{B_R(0)}} < 0$ because $u < 0$ on that. Thus pick $c > 0$ such that $c \log R > a$, and so on $\partial A(0, R, 1)$, $u(z) < c \log|z|$, giving us that $u(z) < c \log |z|$ for $ z \in A(0, R, 1)$ as desired. 
+
+\item Show that for each $\zeta \in \partial B$, $\lim_{r \to 1^-} \sup \frac{u(r\zeta)}{1-r} < 0$. 
+
+Solution: By $(a)$, we have $R$ and $c$ such that 
+$$ u(z) < c \log |z| \implies u(r \zeta) < c \log |\zeta r| = c \log |r|$$
+Note that if $r < 1$ (ie what happens when $r \to 1^{-1}$, we have 
+$$ \frac{u(r\zeta)}{1 - r} < \frac{c \log r}{1 - r} $$
+and 
+$$ \lim_{r \to 1^{-1}} \frac{c \log r}{1 - r} = \lim_{r \to 1^{-1}} \frac{c /r}{-1} = -c < 0 $$
+We also have that 
+$$ \limsup_{r \to 1^{-1}} \frac{u(r\zeta)}{1 - r} \leq  \lim_{r \to 1^{-1}} \frac{c \log r}{1 - r} = -c < 0 $$
+
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
