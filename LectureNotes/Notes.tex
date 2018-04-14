@@ -1315,11 +1315,25 @@ $$ f(z) = c \left(\frac{z-a}{1 - \overline{a}z}\right) $$
 \end{theorem}
 
 \section{Harmonic Functions}
+
+\begin{definition}
 Let $V$ be open, simply connected, connected in $\R^2$. If $u: V \to \R$ is $C^2$ and $\nabla^2 u = 0$ then $u$ is harmonic. Let $U \equiv V$ (using the natural isomorphism between $\C$ and $\R$). If $f:U\to\C$ holomorphic, then $u = \re f$ is holomorphic by the Cauchy Riemann equations. 
+\end{definition}
+
+\begin{example}
+We consider harmonic functions on $R^2$ since it is naturally isomorphic to $\C$ and we've been studying complex analysis. 
+\end{example}
+
+\subsection{Characterization of Harmonic Functions}
+
+\begin{lemma}
+The real part of any holomorphic function is harmonic. 
+\end{lemma}
 
 \begin{theorem}
 Let $V$ be open, connected, simply connected. Suppose $u: V \to \R$ harmonic. Then there exists $f: U \to \C$ holomorphic with $\Re f = u$.
 \end{theorem}
+
 
 \begin{corollary}
 A harmonic function is smooth.
@@ -1345,5 +1359,75 @@ Proof: Suppose $u$ obtains its maximum. Set $f:V\to\C$ holomorphic with $\Re f =
 Let $u:\overline{V} \to \R$ and $u|_V$ be harmonic. Then
 $$ \sup_{(x,y) \in V} = \max_{(x,y) \in \overline{V}} u(x,y) = \max_{(x,y) \in \partial V} u(x,y) $$
 \end{corollary}
+
+Proof: Obvious.
+
+\begin{corollary}
+Let $V \subset R^2$ be a non-empty open connected and bounded set. Let $u: \overline{V} \to \R$ be a continuous function and suppose that $u|_V$ is harmonic. If $u(p) = 0$ for all $p \in \partial V$ then $u = 0$.
+\end{corollary}
+
+Proof: Apply corollary 4.8 to $u$ and $-u$. 
+
+\subsection{The Dirichlet Problem}
+
+Let $V \subset R^2$ be open with boundary $\Gamma = \partial V$. Let $h: \Gamma \to \R$ a continuous function. The Dirichlet problem is the question whether there exists a continuous function $u:\overline{V} \to \R$ such that $u|_\Gamma = h$ and $u|_V$ is harmonic in $V$. 
+
+\begin{theorem}
+Let $R > 0$ and let $h: \partial B_R(0) \to \R$ be a continuous function. Define $u: \overline{B_R(0)} \to \R$ by 
+$$ u(r\cos\phi, r \sin\phi) = \begin{cases} \frac{1}{2\pi}\int_0^{2\pi} h(R\cos\theta, R \sin\theta) \frac{R^2 - r^2}{|Re^{i\theta} - re^{i\varphi}|^2} d\theta & r \in [0, R) \\ h(R\cos\varphi, R\sin\varphi) & r = R \end{cases} $$
+Then $u|B_R(0)$ is a harmonic function and $u$ is continuous. Thus $u$ is the unique solution of the Dirichlet problem with initial data $h$.
+\end{theorem}
+
+Proof: WLOG assume that $R = 1$. Define $H:\partial B_1(0) \to \R$ by $H(e^{i\theta}) = h(\cos \theta, \sin \theta)$. Define $f:B_1(0) \to \C$ by 
+$$ f(z) = \frac{1}{2\pi i} \int_{\Gamma_1(0)} \frac{H(w)}{w} \frac{w+z}{w-z} dw $$
+Since $\frac{w +z}{w-z} = -1 + 2\frac{w}{w-z}$ it follows that $f$ is holomorphic. Note that 
+$$ \re \frac{e^{i\theta} + re^{i\varphi}}{e^{i\theta} - re^{i\varphi}} = \frac{1 - r^2}{|e^{i\theta} - re^{i\varphi}|^2} $$
+for all $r \in [0, 1)$ and $\theta, \varphi \in \R$. Hence
+$$ \re f(re^{i\varphi}) = \re \frac{1}{2\pi} \int_0^{2\pi i} H(e^{i\theta}) \frac{e^{i\theta} + re^{i\varphi}}{e^{i\theta} - re^{i\varphi}} d\theta $$
+$$ = \frac{1}{2\pi}\int_0^{2\pi} H(e^{i\theta}) \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2}d\theta = u(r\cos\varphi, r\sin\varphi) $$
+for all $r \in [0,1)$ and $\varphi \in \R$. So $u|_{B_1(0)}$ is harmonic by Lemma 4.3. 
+
+Clearly $u$ is continuous inside $B_1(0)$. Let $\alpha \in \R$. We next show that $u$ is continuous at $(\cos \alpha, \sin \alpha)$. Since $h$, and therefore also $H$, is continuous and $\partial B_1(0)$ is compact it follows that $H$ is bounded. Let $M > 0$ be s.t. $|H(e^{i\theta})| \leq M$ for all $\theta \in \R$. Let $\epsilon > 0$. There exists a $\delta \in (0, 1)$ such that 
+$$ |H(e^{i\theta}) - H(e^{i\alpha})| < \epsilon $$
+for all $\theta \in [\alpha - 2\delta, \alpha + 2\delta]$. We have by Proposition 2.39 that 
+$$ 1 = \frac{1}{2\pi} \int_0^{2\pi} \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2}d\theta $$
+Therefore
+$$ |u(r\cos\varphi, r\sin\varphi) - u(\cos\alpha, \sin\alpha)| = \frac{1}{2\pi} \left| \int_0^{2\pi}\left(H(e^{i\theta}) - H(e^{i\alpha})\right) \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2} d\theta \right| $$
+$$ \leq \frac{1}{2\pi} \int_{\alpha - \pi}^{\alpha + \pi} |H(e^{i\theta}) - H(e^{i\alpha})| \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2} d\theta $$
+Split the integral into two parts, with one as $|\theta -\alpha| \leq 2\delta$ and one with the remaining part. The first one can be estimated by 
+$$ \frac{1}{2\pi} \int_{\alpha - 2\delta}^{\alpha+2\delta} |H(e^{i\theta}) - H(e^{i\alpha})| \frac{1 - r^2}{|e^{i\theta} - re^{i\varphi}|^2} d\theta$$
+$$  \leq \frac{1}{2\pi} \int_{\alpha - 2\delta}^{\alpha + 2\delta} \epsilon \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2}d\theta = \epsilon$$
+For the second one, note that $|\varphi - \alpha| \leq \delta$ and $|\theta - \alpha| \geq 2\delta$. Therefore $|\theta - \varphi| \geq \delta$ so $|e^{i\theta} - re^{i\varphi}| \geq \sin \delta$. Hence 
+$$ \frac{1}{2\pi}\left(\int_{\alpha - \pi}^{\alpha - 2\delta} + \int_{\alpha + 2\delta}^{\alpha + \pi}\right) |H(e^{i\theta}) - H(e^{i\alpha})| \frac{1-r^2}{|e^{i\theta} - re^{i\varphi}|^2} d\theta $$
+$$ \leq \frac{2M}{2\pi}\left(\int_{\alpha- \pi}^{\alpha - 2\delta} + \int_{\alpha + \pi}^{\alpha + 2\delta} \right) \frac{1-r^2}{\sin^2\delta} d\theta \leq \frac{2M}{\sin^2\delta}(1- r^2) $$
+and if $r \to 1$ the integral tends to $0$. Thus continuity follows. 
+
+\begin{definition}
+The integral in the above theorem is called the Poisson integral and the function
+$$ \left( (x, y), (a, b)\right) \mapsto \frac{1}{2\pi} \frac{R^2 - |(x,y)|^2}{|(a,b) - (x,y)|^2} $$
+from $B_R(0) \times \partial B_R(0)$ into $\R$ is called the Poisson kernel. 
+\end{definition}
+
+\begin{corollary}
+(Harnack's inequality) Let $R > 0$ and let $u:\overline{B_R(0)} \to \R$ be a continuous functions such that $u|_{B_R(0)}$ is harmonic. Suppose $u(p) \geq 0$ for all $p \in \overline{B_R(0)}$. Then 
+$$ \frac{R-r}{R + r} u(o) \leq u(r\cos\varphi, r\sin\varphi) \leq \frac{R+r}{R-r} u(0) $$
+\end{corollary}
+
+Proof: If $\theta \in \R$ then 
+$$ R - r \leq |Re^{i\theta} - re^{i\varphi}| \leq R + r $$
+so 
+$$ \frac{R-r}{R+r} = \frac{R^2 - r^2}{(R + r)^2} \leq \frac{R^2 - r^2}{|Re^{i\theta} - re^{i\varphi}|^2} \leq \frac{R^2 - r^2}{(R-r)^2} = \frac{R+r}{R-r} $$
+Since $u(0) = \frac{1}{2\pi} \int_0^{2\pi} u(R\cos\theta, R\sin\theta)d\theta$. Now apply Theorem 4.10 and the desired follows. 
+
+\begin{corollary}
+Let $u: R^2 \to \R$ be a harmonic function. Suppose that $u(p) \geq 0$ for all $p \in \R^2$. Then $u$ is constant,
+\end{corollary}
+
+Proof: Take the limit $R \to \infty$ in Corollary 4.12. We have that $u(0) \leq u(p) \leq u(0)$ for all $p \in \R^2$. Therefore $u$ is constant. 
+
+\begin{theorem}
+Harnack's Theorem: Let $V \subset \R^2$ be an open set and $u_1, u_2, ...:V\to\R$ harmonic functions. Let $u:V\to\R$ be a function. Suppose that $\lim u_n = u$ locally uniform on $V$. Then $u$ is harmonic.
+\end{theorem}
+
 
 \end{document}
